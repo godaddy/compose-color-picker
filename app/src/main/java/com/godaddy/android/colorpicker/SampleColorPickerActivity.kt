@@ -18,7 +18,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -51,7 +50,7 @@ class SampleColorPickerActivity : ComponentActivity() {
                             modifier = Modifier
                                 .height(300.dp)
                                 .padding(16.dp),
-                            onColorChanged = { hsvColor ->
+                            onColorChanged = { hsvColor: HsvColor ->
                                 // Triggered when the color changes, do something with the newly picked color here!
                                 currentColor.value = hsvColor.toColor()
                             }
@@ -101,7 +100,6 @@ fun DefaultPreview() {
 
     }
 }
-
 
 @ExperimentalGraphicsApi
 @Preview(showBackground = true)

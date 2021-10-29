@@ -15,10 +15,12 @@ implementation `TODO add library published details here`
 Add `ClassicColorPicker` to your Compose hierarchy:
 
 ```
+import com.godaddy.android.colorpicker.HsvColor
+
 Column {
     ClassicColorPicker(
-        onColorChanged = { color ->
-            // Do something with the colour
+        onColorChanged = { color: HsvColor ->
+            // Do something with the color
         }
     )
 }
@@ -31,10 +33,12 @@ Column {
 To change the size of the control, pass in the `Modifier` option:
 
 ```
+import com.godaddy.android.colorpicker.HsvColor
+
 ClassicColorPicker(
     modifier = Modifier.height(200.dp),
-    onColorChanged = { color ->
-        // Do something with the colour
+    onColorChanged = { color: HsvColor ->
+        // Do something with the color
     }
 )
 ```
@@ -44,10 +48,12 @@ ClassicColorPicker(
 To hide the alpha bar, change the `showAlphaBar` parameter:
 
 ```
+import com.godaddy.android.colorpicker.HsvColor
+
 ClassicColorPicker(
     showAlphaBar = false,
-    onColorChanged = { color ->
-        // Do something with the colour
+    onColorChanged = { color: HsvColor ->
+        // Do something with the color
     }
 )
 ```

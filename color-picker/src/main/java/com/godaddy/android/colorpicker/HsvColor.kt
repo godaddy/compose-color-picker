@@ -48,24 +48,29 @@ data class HsvColor(
          * Creates an HsvColor from Color Int
          */
         fun from(@ColorInt color: Int): HsvColor {
-            val floatArray = FloatArray(3)
-            android.graphics.Color.colorToHSV(color, floatArray)
-            return HsvColor(hue = floatArray[0],
-                saturation = floatArray[1],
-                value = floatArray[2],
-                alpha = android.graphics.Color.alpha(color) / 255f)
+            val extractedHsvArray = FloatArray(3)
+            android.graphics.Color.colorToHSV(color, extractedHsvArray)
+            return HsvColor(
+                hue = extractedHsvArray[0],
+                saturation = extractedHsvArray[1],
+                value = extractedHsvArray[2],
+                alpha = android.graphics.Color.alpha(color) / 255f
+            )
         }
+
         /**
-         * Creates an HsvColor from Color Int
+         * Creates an HsvColor from Color
          */
-        fun from(@ColorInt color: Color): HsvColor {
-            val floatArray = FloatArray(3)
+        fun from(color: Color): HsvColor {
+            val extractedHsvArray = FloatArray(3)
             val argb = color.toArgb()
-            android.graphics.Color.colorToHSV(argb, floatArray)
-            return HsvColor(hue = floatArray[0],
-                saturation = floatArray[1],
-                value = floatArray[2],
-                alpha = color.alpha)
+            android.graphics.Color.colorToHSV(argb, extractedHsvArray)
+            return HsvColor(
+                hue = extractedHsvArray[0],
+                saturation = extractedHsvArray[1],
+                value = extractedHsvArray[2],
+                alpha = color.alpha
+            )
         }
     }
 }

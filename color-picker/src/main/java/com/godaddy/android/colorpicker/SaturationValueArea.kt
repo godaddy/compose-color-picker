@@ -1,10 +1,10 @@
 package com.godaddy.android.colorpicker
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.drag
+import androidx.compose.foundation.gestures.forEachGesture
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -50,23 +51,19 @@ internal fun SaturationValueArea(
     }
 
     Canvas(modifier = modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
+        .fillMaxSize()
         .pointerInput(Unit) {
-            val size = this.size
-            detectTapGestures(
-                onTap = { newOffset ->
-                    if (!newOffset.isValid()) return@detectTapGestures
-                    val (s, v) = getSaturationPoint(newOffset, size)
+            forEachGesture {
+                awaitPointerEventScope {
+                    val down = awaitFirstDown()
+                    val (s, v) = getSaturationPoint(down.position, size)
                     onSaturationValueChanged(s, v)
+                    drag(down.id) { change ->
+                        change.consumePositionChange()
+                        val (newSaturation, newValue) = getSaturationPoint(change.position, size)
+                        onSaturationValueChanged(newSaturation, newValue)
+                    }
                 }
-            )
-        }
-        .pointerInput(Unit) {
-            detectDragGestures { newOffset, _ ->
-                if (!newOffset.position.isValid()) return@detectDragGestures
-                val (s, v) = getSaturationPoint(newOffset.position, size)
-                onSaturationValueChanged(s, v)
             }
         }
     ) {
@@ -97,11 +94,11 @@ private fun DrawScope.drawCircleSelector(currentColor: HsvColor) {
 }
 
 private fun getSaturationPoint(
-    pressScope: Offset,
+    offset: Offset,
     size: IntSize
 ): Pair<Float, Float> {
     val (saturation, value) = getSaturationValueFromPosition(
-        pressScope,
+        offset,
         size.toSize()
     )
     return saturation to value

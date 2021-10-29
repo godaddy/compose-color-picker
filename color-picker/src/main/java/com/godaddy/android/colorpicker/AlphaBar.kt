@@ -1,10 +1,10 @@
 package com.godaddy.android.colorpicker
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.drag
+import androidx.compose.foundation.gestures.forEachGesture
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.consumeAllChanges
+import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import kotlin.math.floor
@@ -43,23 +43,27 @@ internal fun AlphaBar(
         )
     }
     Canvas(modifier = modifier
-        .fillMaxWidth()
-        .fillMaxHeight()
+        .fillMaxSize()
         .pointerInput(Unit) {
-            detectTapGestures(
-                onTap = { offset ->
-                    if (!offset.isValid()) return@detectTapGestures
-                    onAlphaChanged(getAlphaFromPosition(offset.x, this.size.width.toFloat()).coerceIn(0f, 1f))
+            forEachGesture {
+                awaitPointerEventScope {
+                    val down = awaitFirstDown()
+                    onAlphaChanged(
+                        getAlphaFromPosition(
+                            down.position.x,
+                            this.size.width.toFloat()
+                        ).coerceIn(0f, 1f)
+                    )
+                    drag(down.id) { change ->
+                        change.consumePositionChange()
+                        onAlphaChanged(
+                            getAlphaFromPosition(
+                                change.position.x,
+                                this.size.width.toFloat()
+                            ).coerceIn(0f, 1f)
+                        )
+                    }
                 }
-            )
-        }
-        .pointerInput(Unit) {
-            detectDragGestures { pointerInput, _ ->
-                if (!pointerInput.position.isValid()) return@detectDragGestures
-                pointerInput.consumeAllChanges()
-                onAlphaChanged(
-                    getAlphaFromPosition(pointerInput.position.x, size.width.toFloat()).coerceIn(0f, 1f)
-                )
             }
         }) {
 
@@ -70,48 +74,8 @@ internal fun AlphaBar(
             color = currentColor,
             maxWidth = this.size.width
         )
-        drawSelectorIndicator(amount = position, horizontal = true)
+        drawHorizontalSelector(amount = position)
     }
-}
-
-internal fun DrawScope.drawSelectorIndicator(amount: Float, horizontal: Boolean) {
-    val halfIndicatorThickness = 4.dp.toPx()
-    val strokeThickness = 1.dp.toPx()
-
-    val offset = if (horizontal) {
-        Offset(
-            x = amount - halfIndicatorThickness,
-            y = - strokeThickness
-        )
-    } else {
-        Offset(
-            y = amount - halfIndicatorThickness,
-            x = - strokeThickness
-        )
-    }
-    val selectionSize = if (horizontal) {
-        Size(halfIndicatorThickness * 2f, this.size.height + strokeThickness * 2)
-    } else {
-        Size(this.size.width + strokeThickness * 2, halfIndicatorThickness * 2f)
-    }
-    val selectionStyle = Stroke(strokeThickness)
-
-    drawRect(
-        Color.Gray,
-        topLeft = offset,
-        size = selectionSize,
-        style = selectionStyle
-    )
-    drawRect(
-        Color.White,
-        topLeft = offset + Offset(strokeThickness, strokeThickness),
-        size = selectionSize.inset(2 * strokeThickness),
-        style = selectionStyle
-    )
-}
-
-internal fun Size.inset(amount: Float): Size {
-    return Size(width - amount, height - amount)
 }
 
 private fun DrawScope.drawAlphaBar(alphaBrush: Brush) {

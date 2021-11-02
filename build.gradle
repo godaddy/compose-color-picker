@@ -17,5 +17,3 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
-apply plugin: "com.vanniktech.maven.publish"

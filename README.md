@@ -1,5 +1,7 @@
 # Android Jetpack Compose Color Picker 🎨
 
+![Maven Central](https://img.shields.io/maven-central/v/com.godaddy.android.colorpicker/compose-color-picker?style=flat-square)
+
 A component that provides an HSV color picker, written in Jetpack compose.
 
 <img src="screenshots/ColorPicker.gif" width="200"  />
@@ -9,7 +11,7 @@ A component that provides an HSV color picker, written in Jetpack compose.
 Add the dependency to your `build.gradle` file:
 
 ```
-implementation `com.godaddy.android:compose-color-picker:0.1.0`
+implementation `com.godaddy.android.colorpicker:compose-color-picker:0.1.1`
 ```
 
 Add `ClassicColorPicker` to your Compose hierarchy:

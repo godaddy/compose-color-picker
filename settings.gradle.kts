@@ -8,4 +8,5 @@ pluginManagement {
 }
 rootProject.name = "Compose Color Picker"
 include (":app")
+include (":desktop")
 include (":color-picker")

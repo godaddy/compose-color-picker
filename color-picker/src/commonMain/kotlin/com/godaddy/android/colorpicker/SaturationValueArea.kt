@@ -68,7 +68,7 @@ internal fun SaturationValueArea(
         }
     ) {
         drawRect(blackGradientBrush)
-        drawRect(currentColorGradientBrush, blendMode = BlendMode.Multiply)
+        drawRect(currentColorGradientBrush, blendMode = BlendMode.Modulate)
         drawRect(Color.Gray, style = Stroke(0.5.dp.toPx()))
 
         drawCircleSelector(currentColor)

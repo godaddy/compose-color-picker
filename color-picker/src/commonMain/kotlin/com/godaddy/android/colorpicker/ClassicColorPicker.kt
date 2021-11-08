@@ -33,7 +33,7 @@ fun ClassicColorPicker(
     showAlphaBar: Boolean = true,
     onColorChanged: (HsvColor) -> Unit
 ) {
-    val colorPickerValueState = rememberSaveable {
+    val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
         mutableStateOf(HsvColor.from(color))
     }
     Row(modifier = modifier) {

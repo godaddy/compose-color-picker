@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
@@ -15,9 +16,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
+import kotlin.math.ceil
 import kotlin.math.floor
 
 /**
@@ -67,7 +70,10 @@ internal fun AlphaBar(
             }
         }) {
 
-        drawCheckeredBackground()
+        clipRect {
+            drawCheckeredBackground()
+        }
+
         drawAlphaBar(currentColorToAlphaBrush)
 
         val position = getPositionFromAlpha(
@@ -88,8 +94,8 @@ private fun DrawScope.drawCheckeredBackground() {
     val lightColor = Color.White
 
     val gridSizePx = 8.dp.toPx()
-    val cellCountX = floor(this.size.width / gridSizePx).toInt()
-    val cellCountY = floor(this.size.height / gridSizePx).toInt()
+    val cellCountX = ceil(this.size.width / gridSizePx).toInt()
+    val cellCountY = ceil(this.size.height / gridSizePx).toInt()
     for (i in 0 until cellCountX) {
         for (j in 0 until cellCountY) {
             val color = if ((i + j) % 2 == 0) darkColor else lightColor

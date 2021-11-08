@@ -11,7 +11,7 @@ A component that provides an HSV color picker, written in Jetpack compose.
 Add the dependency to your `build.gradle` file:
 
 ```
-implementation `com.godaddy.android.colorpicker:compose-color-picker:0.1.1`
+implementation 'com.godaddy.android.colorpicker:compose-color-picker:0.1.2'
 ```
 
 Add `ClassicColorPicker` to your Compose hierarchy:

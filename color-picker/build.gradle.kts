@@ -67,6 +67,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
 tasks {
     create<Jar>("javadocJar") {
         dependsOn(dokkaJavadoc)
@@ -74,14 +75,14 @@ tasks {
         from(dokkaJavadoc.get().outputDirectory)
     }
 }
-val sonatypeUsername: String? = System.getenv("MAVEN_CENTRAL_USERNAME")
-val sonatypePassword: String? = System.getenv("MAVEN_CENTRAL_PASSWORD")
+val sonatypeUsername: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername")
+val sonatypePassword: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralPassword")
 
 signing {
     useInMemoryPgpKeys(
-        System.getenv("GPG_KEY_ID"),
-        System.getenv("GPG_KEY"),
-        System.getenv("GPG_KEY_PASSWORD"),
+        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyId"),
+        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey"),
+        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword"),
     )
     sign(configurations.archives.get())
 }
@@ -135,14 +136,13 @@ publishing {
     }
 
     repositories {
-        maven("https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-            name = "sonatype"
+        maven {
+            setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
             credentials {
                 username = sonatypeUsername
                 password = sonatypePassword
             }
         }
     }
-
 }
 

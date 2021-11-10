@@ -1,5 +1,4 @@
 import org.jetbrains.compose.compose
-import org.jetbrains.kotlin.gradle.plugin.statistics.ReportStatisticsToElasticSearch.password
 
 plugins {
     kotlin("multiplatform")
@@ -7,8 +6,7 @@ plugins {
     id("org.jetbrains.compose") version "1.0.0-beta5"
     id("com.android.library")
     id("kotlin-android-extensions")
-    id("maven-publish")
-    id("signing")
+    id("com.javiersc.gradle.plugins.publish") version "0.1.0-rc.8"
 }
 
 kotlin {
@@ -67,82 +65,3 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
-tasks {
-    create<Jar>("javadocJar") {
-        dependsOn(dokkaJavadoc)
-        archiveClassifier.set("javadoc")
-        from(dokkaJavadoc.get().outputDirectory)
-    }
-}
-val sonatypeUsername: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername")
-val sonatypePassword: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralPassword")
-
-signing {
-    useInMemoryPgpKeys(
-        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyId"),
-        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey"),
-        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword"),
-    )
-    sign(configurations.archives.get())
-}
-
-afterEvaluate {
-    configure<PublishingExtension> {
-        publications.all {
-            val mavenPublication = this as? MavenPublication
-
-            mavenPublication?.artifactId =
-                "compose-color-picker${"-$name".takeUnless { "kotlinMultiplatform" in name }.orEmpty()}".removeSuffix("Release")
-        }
-    }
-}
-
-publishing {
-
-    publications.withType(MavenPublication::class) {
-        groupId = "com.godaddy.android.colorpicker"
-        artifactId = "compose-color-picker"
-        version = "0.2.0"
-
-        artifact(tasks["javadocJar"])
-
-        pom {
-            name.set("compose-color-picker")
-            description.set("A compose component for picking a color")
-            url.set("https://github.com/godaddy/compose-color-picker")
-
-            licenses {
-                license {
-                    name.set("The MIT License (MIT)")
-                    url.set("https://opensource.org/licenses/MIT")
-                }
-            }
-            developers {
-                developer {
-                    id.set("godaddy")
-                    name.set("GoDaddy")
-                }
-            }
-            organization {
-                name.set("GoDaddy")
-            }
-            scm {
-                connection.set("scm:git:git://github.com/godaddy/compose-color-picker.git")
-                developerConnection.set("scm:git:ssh://git@github.com/godaddy/compose-color-picker.git")
-                url.set("https://github.com/godaddy/compose-color-picker")
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            setUrl("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = sonatypeUsername
-                password = sonatypePassword
-            }
-        }
-    }
-}
-

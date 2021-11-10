@@ -26,5 +26,5 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
         run: |
-          ./gradlew publish --no-parallel --no-daemon
+          ./gradlew publishAllPublicationsToSonatypeRepository --no-parallel --no-daemon
           ./gradlew closeAndReleaseRepository

@@ -39,7 +39,7 @@ class SampleColorPickerActivity : ComponentActivity() {
                             Text(stringResource(R.string.compose_color_picker_sample))
                         })
                         val currentColor = remember {
-                            mutableStateOf(Color.Companion.Red)
+                            mutableStateOf(Color.Black)
                         }
                         ColorPreviewInfo(currentColor = currentColor.value)
 

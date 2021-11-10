@@ -44,7 +44,7 @@ data class HsvColor(
          */
         private fun HSV.toColor(): HsvColor {
             return HsvColor(
-                hue = this.h,
+                hue = if (this.h.isNaN()) 0f else this.h,
                 saturation = this.s,
                 value = this.v,
                 alpha = this.alpha

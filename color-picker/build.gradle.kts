@@ -15,7 +15,7 @@ kotlin {
     android("android") {
         publishLibraryVariants("release")
     }
-    jvm("desktop") {
+    jvm {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
@@ -46,12 +46,12 @@ kotlin {
                 implementation("junit:junit:4.13.2")
             }
         }
-        val desktopMain by getting {
+        val jvmMain by getting {
             dependencies {
                 api(compose.preview)
             }
         }
-        val desktopTest by getting
+        val jvmTest by getting
     }
 }
 
@@ -78,14 +78,6 @@ tasks {
 val sonatypeUsername: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername")
 val sonatypePassword: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralPassword")
 
-signing {
-    useInMemoryPgpKeys(
-        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyId"),
-        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey"),
-        System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyPassword"),
-    )
-    sign(configurations.archives.get())
-}
 
 afterEvaluate {
     configure<PublishingExtension> {
@@ -97,17 +89,34 @@ afterEvaluate {
         }
     }
 }
+val keyId = (System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyId")
+    ?: project.properties["signingInMemoryKeyId"]) as String
+val keyPassword = (System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey")
+    ?: project.properties["signingInMemoryKeyPassword"]) as String
+val key = (System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey")
+    ?: project.properties["signingInMemoryKey"]) as String
 
+signing {
+     useInMemoryPgpKeys(
+         keyId,
+         key,
+         keyPassword,
+     )
+
+    sign(configurations.archives.get())
+    sign(publishing.publications)
+}
 publishing {
 
     publications.withType(MavenPublication::class) {
         groupId = "com.godaddy.android.colorpicker"
         artifactId = "compose-color-picker"
-        version = "0.2.0"
+        version = "0.2.1"
 
         artifact(tasks["javadocJar"])
 
         pom {
+
             name.set("compose-color-picker")
             description.set("A compose component for picking a color")
             url.set("https://github.com/godaddy/compose-color-picker")

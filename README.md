@@ -15,6 +15,8 @@ implementation 'com.godaddy.android.colorpicker:compose-color-picker:<latest-ver
 
 // with Android ColorInt extensions
 implementation 'com.godaddy.android.colorpicker:compose-color-picker-android:<latest-version>'
+// desktop jvm version
+implementation 'com.godaddy.android.colorpicker:compose-color-picker-jvm:<latest-version>'
 ```
 
 Add `ClassicColorPicker` to your Compose hierarchy:

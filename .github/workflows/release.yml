@@ -17,13 +17,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
+      - name: Configure GPG Key
+        run: |
+          echo "${{secrets.GPG_KEY}}" > ~/.gradle/secring.gpg.b64
+          base64 -d ~/.gradle/secring.gpg.b64 > ~/.gradle/secring.gpg
+        env:
+          GPG_KEY: ${{ secrets.GPG_KEY }}
       - name:  Deploy to Sonatype
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.GPG_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_KEY_PASSWORD }}
         run: |
-          ./gradlew publishAllPublicationsToMavenRepository --no-parallel --no-daemon
+          ./gradlew publishAllPublicationsToMavenRepository --no-parallel --no-daemon -Psigning.keyId=${{secrets.GPG_KEY_ID}} -Psigning.password=${{ secrets.GPG_KEY_PASSWORD }} -Psigning.secretKeyRingFile=$(echo ~/.gradle/secring.gpg)

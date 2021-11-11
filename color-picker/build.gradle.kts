@@ -89,19 +89,8 @@ afterEvaluate {
         }
     }
 }
-val keyId = (System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKeyId")
-    ?: project.properties["signingInMemoryKeyId"]) as String
-val keyPassword = (System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey")
-    ?: project.properties["signingInMemoryKeyPassword"]) as String
-val key = (System.getenv("ORG_GRADLE_PROJECT_signingInMemoryKey")
-    ?: project.properties["signingInMemoryKey"]) as String
 
 signing {
-     useInMemoryPgpKeys(
-         keyId,
-         key,
-         keyPassword,
-     )
 
     sign(configurations.archives.get())
     sign(publishing.publications)

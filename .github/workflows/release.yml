@@ -20,7 +20,7 @@ jobs:
       - name: Configure GPG Key
         run: |
           mkdir ~/.gpgkey
-          echo "${{secrets.GPG_KEY}}" > ~/.gpgkey/secring.gpg.b64
+          echo $GPG_KEY > ~/.gpgkey/secring.gpg.b64
           base64 -d ~/.gpgkey/secring.gpg.b64 > ~/.gpgkey/secring.gpg
         env:
           GPG_KEY: ${{ secrets.GPG_KEY }}
@@ -29,4 +29,4 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
         run: |
-          ./gradlew publishAllPublicationsToMavenRepository --no-parallel --no-daemon -Psigning.keyId=${{secrets.GPG_KEY_ID}} -Psigning.password=${{ secrets.GPG_KEY_PASSWORD }} -Psigning.secretKeyRingFile=$(echo ~/.gpgkey/secring.gpg)
+          ./gradlew publishAllPublicationsToMavenRepository --no-parallel --no-daemon -Psigning.keyId=${{secrets.GPG_KEY_ID}} -Psigning.password=${{secrets.GPG_KEY_PASSWORD}} -Psigning.secretKeyRingFile=$(echo ~/.gpgkey/secring.gpg)

@@ -21,6 +21,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import com.github.ajalt.colormath.model.HSV
 
 /**
  * Saturation Value area Component that invokes onSaturationValueChanged when the saturation or value is mutated.
@@ -30,7 +31,6 @@ import androidx.compose.ui.unit.toSize
  * @param onSaturationValueChanged the callback that is invoked when saturation or value component of the changes.
  * saturation, value both between 0 - 1.
  */
-@ExperimentalGraphicsApi
 @Composable
 internal fun SaturationValueArea(
     modifier: Modifier = Modifier,
@@ -42,10 +42,12 @@ internal fun SaturationValueArea(
     }
 
     val currentColorGradientBrush = remember(currentColor.hue) {
+        val hsv = HSV(currentColor.hue, 1.0f, 1.0f)
+        val rgb = hsv.toSRGB()
         Brush.horizontalGradient(
             listOf(
                 Color(0xffffffff),
-                Color.hsv(currentColor.hue, 1.0f, 1.0f)
+                Color(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
             )
         )
     }

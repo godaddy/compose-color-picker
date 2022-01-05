@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
  * @param onColorChanged callback that is triggered when the color changes
  *
  */
-@ExperimentalGraphicsApi
 @Composable
 fun ClassicColorPicker(
     modifier: Modifier = Modifier,

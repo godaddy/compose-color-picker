@@ -30,7 +30,6 @@ import kotlin.math.floor
  * @param currentColor the initial color to set on the alpha bar.
  * @param onAlphaChanged the callback that is invoked when alpha value changes. 0 - 1.
  */
-@ExperimentalGraphicsApi
 @Composable
 internal fun AlphaBar(
     modifier: Modifier = Modifier,

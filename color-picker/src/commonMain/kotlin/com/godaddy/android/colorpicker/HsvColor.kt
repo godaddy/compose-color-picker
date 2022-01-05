@@ -29,9 +29,10 @@ data class HsvColor(
     val alpha: Float
 ) {
 
-    @ExperimentalGraphicsApi
     fun toColor(): Color {
-        return Color.hsv(hue, saturation, value, alpha)
+        val hsv = HSV(hue, saturation, value, alpha)
+        val rgb = hsv.toSRGB()
+        return Color(rgb.redInt, rgb.greenInt, rgb.blueInt, rgb.alphaInt)
     }
 
 

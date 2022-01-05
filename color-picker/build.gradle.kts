@@ -1,12 +1,10 @@
 import org.jetbrains.compose.compose
-import org.jetbrains.kotlin.gradle.plugin.statistics.ReportStatisticsToElasticSearch.password
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka") version "1.5.30"
-    id("org.jetbrains.compose") version "1.0.0-beta5"
+    id("org.jetbrains.dokka") version "1.6.10"
+    id("org.jetbrains.compose") version "1.0.1"
     id("com.android.library")
-    id("kotlin-android-extensions")
     id("maven-publish")
     id("signing")
 }
@@ -27,7 +25,7 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
-                implementation("com.github.ajalt.colormath:colormath:3.1.1")
+                implementation("com.github.ajalt.colormath:colormath:3.2.0")
             }
         }
         val commonTest by getting {
@@ -37,7 +35,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.appcompat:appcompat:1.3.1")
+                api("androidx.appcompat:appcompat:1.4.0")
                 api("androidx.core:core-ktx:1.7.0")
             }
         }
@@ -56,11 +54,11 @@ kotlin {
 }
 
 android {
-    compileSdkVersion(31)
+    compileSdk = 31
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(21)
-        targetSdkVersion(31)
+        minSdk = 21
+        targetSdk = 31
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -100,7 +98,7 @@ publishing {
     publications.withType(MavenPublication::class) {
         groupId = "com.godaddy.android.colorpicker"
         artifactId = "compose-color-picker"
-        version = "0.2.1"
+        version = "0.3.0"
 
         artifact(tasks["javadocJar"])
 

@@ -26,9 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.godaddy.android.colorpicker.theme.ComposeColorPickerTheme
 
+@ExperimentalGraphicsApi
 class SampleColorPickerActivity : ComponentActivity() {
 
-    @ExperimentalGraphicsApi
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {

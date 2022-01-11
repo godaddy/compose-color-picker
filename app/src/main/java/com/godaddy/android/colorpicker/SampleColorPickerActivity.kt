@@ -4,17 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
 import com.godaddy.android.colorpicker.theme.ComposeColorPickerTheme
 
 @ExperimentalGraphicsApi
@@ -35,7 +36,8 @@ class SampleColorPickerActivity : ComponentActivity() {
         setContent {
             ComposeColorPickerTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    Column {
+                    val scrollState = rememberScrollState()
+                    Column(modifier = Modifier.verticalScroll(scrollState)) {
                         TopAppBar(title = {
                             Text(stringResource(R.string.compose_color_picker_sample))
                         })
@@ -43,23 +45,53 @@ class SampleColorPickerActivity : ComponentActivity() {
                             mutableStateOf(Color.Black)
                         }
                         ColorPreviewInfo(currentColor = currentColor.value)
-
-                        // Here is how to add a Color Picker to your compose tree:
-                        ClassicColorPicker(
-                            color = currentColor.value,
-                            modifier = Modifier
-                                .height(300.dp)
-                                .padding(16.dp),
-                            onColorChanged = { hsvColor: HsvColor ->
-                                // Triggered when the color changes, do something with the newly picked color here!
-                                currentColor.value = hsvColor.toColor()
+                        val currentColorPicker = remember { mutableStateOf(ColorPicker.CLASSIC) }
+                        TabRow(0, tabs = {
+                            Text(
+                                "Classic Picker", modifier =
+                                Modifier.clickable {
+                                    currentColorPicker.value = ColorPicker.CLASSIC
+                                }
+                            )
+                            Text("Harmony Picker",
+                                modifier = Modifier.clickable {
+                                    currentColorPicker.value = ColorPicker.HARMONY
+                                }
+                            )
+                        })
+                        when (currentColorPicker.value) {
+                            ColorPicker.CLASSIC -> {
+                                // Here is how to add a Color Picker to your compose tree:
+                                ClassicColorPicker(
+                                    color = currentColor.value,
+                                    modifier = Modifier
+                                        .height(300.dp)
+                                        .padding(16.dp),
+                                    onColorChanged = { hsvColor: HsvColor ->
+                                        // Triggered when the color changes, do something with the newly picked color here!
+                                        currentColor.value = hsvColor.toColor()
+                                    }
+                                )
                             }
-                        )
+                            ColorPicker.HARMONY -> {
+
+                                HarmonyColorPicker(
+                                    modifier = Modifier.size(400.dp),
+                                    onColorChanged = { hsvColor ->
+                                        currentColor.value = hsvColor.toColor()
+                                    })
+                            }
+                        }
                     }
                 }
             }
         }
     }
+}
+
+enum class ColorPicker {
+    CLASSIC,
+    HARMONY;
 }
 
 @Composable

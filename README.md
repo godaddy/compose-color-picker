@@ -65,3 +65,12 @@ ClassicColorPicker(
 )
 ```
 
+
+### To make a release
+
+1. Update the version number in color-picker/build.gradle.kts
+2. Make a PR into main and get that merged
+3. Run "Deploy to Sonatype" GitHub Action.
+4. Login to Sonatype and "Close" release. After a few minutes, click "Release". 
+5. Release should then be available for download on maven (might take like 30 min to propagate).
+

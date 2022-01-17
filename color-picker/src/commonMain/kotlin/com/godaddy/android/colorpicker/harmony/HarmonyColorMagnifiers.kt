@@ -7,20 +7,21 @@ import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
 import com.godaddy.android.colorpicker.HsvColor
 import kotlin.math.cos
 import kotlin.math.sin
 
 @Composable
 internal fun HarmonyColorMagnifiers(
-    diameter: Int,
+    diameterPx: Int,
     hsvColor: HsvColor,
     currentlyDragging: Boolean,
     harmonyMode: ColorHarmonyMode
 ) {
-    val size = IntSize(diameter, diameter)
+    val size = IntSize(diameterPx, diameterPx)
     val position = positionForColor(hsvColor, size)
 
     val positionAnimated by animateOffsetAsState(
@@ -28,11 +29,15 @@ internal fun HarmonyColorMagnifiers(
         animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
     )
 
+    val diameterDp = with(LocalDensity.current) {
+        Dp(this.density * diameterPx)
+    }
+
     val animatedDiameter = animateDpAsState(
         targetValue = if (currentlyDragging) {
-            SelectionCircleDiameterLarger
+            diameterDp * 0.025f
         } else {
-            SelectionCircleDiameterLarge
+            diameterDp * 0.020f
         }
     )
 
@@ -42,14 +47,10 @@ internal fun HarmonyColorMagnifiers(
             animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
         )
 
-        Magnifier(position = positionForColor, color = color, diameter = SelectionCircleDiameter)
+        Magnifier(position = positionForColor, color = color, diameter = diameterDp * 0.015f)
     }
     Magnifier(position = positionAnimated, color = hsvColor, diameter = animatedDiameter.value)
 }
-
-private val SelectionCircleDiameter = 30.dp
-private val SelectionCircleDiameterLarge = 40.dp
-private val SelectionCircleDiameterLarger = 48.dp
 
 private fun positionForColor(color: HsvColor, size: IntSize): Offset {
     val radians = Math.toRadians(color.hue.toDouble())

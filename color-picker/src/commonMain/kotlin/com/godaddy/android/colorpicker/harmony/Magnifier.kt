@@ -1,17 +1,12 @@
 package com.godaddy.android.colorpicker.harmony
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -26,27 +21,18 @@ import com.godaddy.android.colorpicker.HsvColor
  */
 @Composable
 internal fun Magnifier(position: Offset, color: HsvColor, diameter: Dp) {
-
     val offset = with(LocalDensity.current) {
         Modifier.offset(
-            position.x.toDp() - MagnifierWidth / 2,
+            position.x.toDp() - diameter / 2,
             // Align with the center of the selection circle
-            position.y.toDp() - (MagnifierHeight - (diameter / 2))
+            position.y.toDp() - diameter / 2
         )
     }
 
     Column(
-        offset.size(width = MagnifierWidth, height = MagnifierHeight)
+        offset.size(width = diameter, height = diameter)
     ) {
-        Spacer(Modifier.weight(1f))
-        Box(
-            Modifier
-                .fillMaxWidth()
-                .height(diameter),
-            contentAlignment = Alignment.Center
-        ) {
-            MagnifierSelectionCircle(Modifier.size(diameter), color)
-        }
+        MagnifierSelectionCircle(Modifier.size(diameter), color)
     }
 }
 
@@ -64,6 +50,3 @@ private fun MagnifierSelectionCircle(modifier: Modifier, color: HsvColor) {
         content = {}
     )
 }
-
-private val MagnifierWidth = 110.dp
-private val MagnifierHeight = 100.dp

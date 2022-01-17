@@ -35,7 +35,7 @@ internal fun HarmonyColorMagnifiers(
 
     val animatedDiameter = animateDpAsState(
         targetValue = if (currentlyDragging) {
-            diameterDp * 0.025f
+            diameterDp * 0.022f
         } else {
             diameterDp * 0.020f
         }

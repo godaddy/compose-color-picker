@@ -46,7 +46,6 @@ internal fun HarmonyColorMagnifiers(
             targetValue = positionForColor(color, size),
             animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
         )
-
         Magnifier(position = positionForColor, color = color, diameter = diameterDp * 0.015f)
     }
     Magnifier(position = positionAnimated, color = hsvColor, diameter = animatedDiameter.value)

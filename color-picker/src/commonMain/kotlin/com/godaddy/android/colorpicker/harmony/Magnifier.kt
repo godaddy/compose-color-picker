@@ -29,9 +29,7 @@ internal fun Magnifier(position: Offset, color: HsvColor, diameter: Dp) {
         )
     }
 
-    Column(
-        offset.size(width = diameter, height = diameter)
-    ) {
+    Column(offset.size(width = diameter, height = diameter)) {
         MagnifierSelectionCircle(Modifier.size(diameter), color)
     }
 }

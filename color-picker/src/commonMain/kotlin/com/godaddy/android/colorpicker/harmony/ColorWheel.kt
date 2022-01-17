@@ -45,13 +45,10 @@ internal fun ColorWheel(
         )
     }
     Canvas(modifier = Modifier.fillMaxSize()) {
-
         // draw the hue bar
         drawCircle(colorSweepGradientBrush)
-
         // draw saturation radial overlay
         drawCircle(saturationGradientBrush)
-
         // account for "brightness/value" slider
         drawCircle(
             hsvColor.copy(

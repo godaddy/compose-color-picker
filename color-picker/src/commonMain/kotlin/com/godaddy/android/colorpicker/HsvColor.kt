@@ -100,6 +100,7 @@ data class HsvColor(
 
     fun getColors(colorHarmonyMode: ColorHarmonyMode): List<HsvColor> {
         return when (colorHarmonyMode) {
+            ColorHarmonyMode.NONE -> emptyList()
             ColorHarmonyMode.COMPLEMENTARY -> getComplementaryColor()
             ColorHarmonyMode.ANALOGOUS -> getAnalagousColors()
             ColorHarmonyMode.SPLIT_COMPLEMENTARY -> getSplitComplementaryColors()

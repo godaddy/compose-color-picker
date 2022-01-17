@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.godaddy.android.colorpicker.harmony.ColorHarmonyMode
 import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
 import com.godaddy.android.colorpicker.theme.ComposeColorPickerTheme
 
@@ -76,6 +77,7 @@ class SampleColorPickerActivity : ComponentActivity() {
                             ColorPicker.HARMONY -> {
 
                                 HarmonyColorPicker(
+                                    harmonyMode = ColorHarmonyMode.COMPLEMENTARY,
                                     modifier = Modifier.size(400.dp),
                                     onColorChanged = { hsvColor ->
                                         currentColor.value = hsvColor.toColor()

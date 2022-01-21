@@ -1,39 +1,31 @@
-package com.godaddy.android.colorpicker
-
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import com.godaddy.android.colorpicker.HsvColor
 import com.godaddy.android.colorpicker.harmony.ColorHarmonyMode
 import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
-import com.godaddy.android.colorpicker.theme.BackButton
 
 @Composable
-fun HarmonyColorPickerScreen(navController: NavController) {
-    Column {
-        TopAppBar(title = {
-            Text(stringResource(R.string.harmony_color_picker_sample))
-        },
-        navigationIcon = {
-            BackButton { navController.navigateUp() }
-        })
+fun HarmonyColorPickerScreen() {
+    Column(modifier = Modifier.padding(8.dp)) {
         val currentColor = remember {
             mutableStateOf(Color.Black)
         }
         val extraColors = remember {
             mutableStateOf(emptyList<HsvColor>())
         }
-        ColorPreviewInfo(currentColor = currentColor.value)
+        ColorPaletteBar(modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+            colors = listOf(HsvColor.from(currentColor.value)).plus(extraColors.value))
         val expanded = remember {
             mutableStateOf(false)
         }
@@ -59,12 +51,33 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         }
         HarmonyColorPicker(
             harmonyMode = harmonyMode.value,
-            modifier = Modifier.size(400.dp),
-            onColorChanged = { hsvColor, harmonyColors ->
+            modifier = Modifier.defaultMinSize(minHeight = 300.dp, minWidth = 300.dp),
+            onColorChanged = { hsvColor ->
                 currentColor.value = hsvColor.toColor()
-                extraColors.value = harmonyColors
+                extraColors.value = hsvColor.getColors(harmonyMode.value)
             })
-        ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(60.dp), colors = extraColors.value)
     }
+}
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ColorPaletteBar(
+    modifier: Modifier = Modifier,
+    colors: List<HsvColor>
+) {
+    LazyVerticalGrid(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        cells = GridCells.Adaptive(48.dp),
+        modifier = modifier
+            .fillMaxWidth(),
+        contentPadding = PaddingValues(16.dp),
+        content = {
+            items(colors) { color ->
+                Canvas(modifier = Modifier.size(48.dp)) {
+                    drawCircle(color.toColor())
+                }
+            }
+        }
+    )
 }

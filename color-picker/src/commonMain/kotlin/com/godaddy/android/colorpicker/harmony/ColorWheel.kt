@@ -22,7 +22,7 @@ internal fun ColorWheel(
 
     val radius = diameter / 2f
     val alpha = 1.0f
-    val colorSweepGradientBrush = remember(hsvColor.value) {
+    val colorSweepGradientBrush = remember(hsvColor.value, diameter) {
         val wheelColors = arrayOf(
             HsvColor(0f, saturation, value, alpha),
             HsvColor(60f, saturation, value, alpha),
@@ -36,7 +36,7 @@ internal fun ColorWheel(
         }
         Brush.sweepGradient(wheelColors, Offset(radius, radius))
     }
-    val saturationGradientBrush = remember {
+    val saturationGradientBrush = remember(diameter) {
         Brush.radialGradient(
             listOf(Color.White, Color.Transparent),
             Offset(radius, radius),

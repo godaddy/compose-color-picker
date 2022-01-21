@@ -25,13 +25,8 @@ fun main() = application {
             Surface(color = MaterialTheme.colors.background) {
                 Column {
                     TopAppBar(title = {
-                        Text("compose desktop color picker")
+                        Text("Compose Desktop color picker")
                     })
-                    val currentColor = remember {
-                        mutableStateOf(Color.Red)
-                    }
-                    ColorPreviewInfo(currentColor = currentColor.value)
-
                     // Here is how to add a Color Picker to your compose tree:
 
                     val currentColorPicker = remember { mutableStateOf(ColorPicker.CLASSIC) }
@@ -50,44 +45,10 @@ fun main() = application {
                     }, contentColor = Color.White, modifier = Modifier.height(48.dp))
                     when (currentColorPicker.value) {
                         ColorPicker.CLASSIC -> {
-                            // Here is how to add a Color Picker to your compose tree:
-                            ClassicColorPicker(
-                                color = currentColor.value,
-                                modifier = Modifier
-                                    .height(300.dp)
-                                    .padding(16.dp),
-                                onColorChanged = { hsvColor: HsvColor ->
-                                    // Triggered when the color changes, do something with the newly picked color here!
-                                    currentColor.value = hsvColor.toColor()
-                                }
-                            )
+                            ClassicColorPickerScreen()
                         }
                         ColorPicker.HARMONY -> {
-                            val currentHarmonyMode = remember {
-                                mutableStateOf(ColorHarmonyMode.COMPLEMENTARY)
-                            }
-                            val expandedMenu = remember {
-                                mutableStateOf(false)
-                            }
-                            DropdownMenu(expandedMenu.value, onDismissRequest = {
-                                expandedMenu.value = false
-                            }) {
-                                ColorHarmonyMode.values().forEach {  colorHarmony->
-                                    DropdownMenuItem(onClick = {
-                                        expandedMenu.value = false
-                                        currentHarmonyMode.value = colorHarmony
-                                    }) {
-                                        Text(colorHarmony.name)
-                                    }
-                                }
-                            }
-
-                            HarmonyColorPicker(
-                                harmonyMode = currentHarmonyMode.value,
-                                modifier = Modifier.size(400.dp),
-                                onColorChanged = { hsvColor ->
-                                    currentColor.value = hsvColor.toColor()
-                                })
+                            HarmonyColorPickerScreen()
                         }
                     }
                 }

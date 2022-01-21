@@ -12,7 +12,9 @@ version = "1.0"
 dependencies {
     implementation(project(":color-picker"))
     implementation ("androidx.activity:activity-compose:1.4.0")
-    implementation("com.google.android.material:material:1.4.0")
+    implementation("com.google.android.material:material:1.5.0")
+    implementation("androidx.navigation:navigation-runtime-ktx:2.3.5")
+    implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
 }
 
 android {

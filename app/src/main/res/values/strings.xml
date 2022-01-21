@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Compose Color Picker</string>
     <string name="compose_color_picker_sample">Compose Color Picker</string>
+    <string name="harmony_color_picker_sample">Harmony Color Picker</string>
+    <string name="classic_color_picker_sample">Classic Color Picker</string>
+    <string name="content_description_back_button">Back</string>
 </resources>

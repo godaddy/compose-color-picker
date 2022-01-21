@@ -35,9 +35,9 @@ internal fun HarmonyColorMagnifiers(
 
     val animatedDiameter = animateDpAsState(
         targetValue = if (currentlyDragging) {
-            diameterDp * 0.022f
+            diameterDp * diameterMainColorDragging
         } else {
-            diameterDp * 0.020f
+            diameterDp * diameterMainColor
         }
     )
 
@@ -46,7 +46,7 @@ internal fun HarmonyColorMagnifiers(
             targetValue = positionForColor(color, size),
             animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
         )
-        Magnifier(position = positionForColor, color = color, diameter = diameterDp * 0.015f)
+        Magnifier(position = positionForColor, color = color, diameter = diameterDp * diameterHarmonyColor)
     }
     Magnifier(position = positionAnimated, color = hsvColor, diameter = animatedDiameter.value)
 }
@@ -61,3 +61,7 @@ private fun positionForColor(color: HsvColor, size: IntSize): Offset {
         y = (y * size.height)
     )
 }
+
+private const val diameterHarmonyColor = 0.015f
+private const val diameterMainColorDragging = 0.022f
+private const val diameterMainColor = 0.020f

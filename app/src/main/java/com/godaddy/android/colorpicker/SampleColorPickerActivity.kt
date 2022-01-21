@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
@@ -33,10 +36,10 @@ class SampleColorPickerActivity : ComponentActivity() {
                     val scrollState = rememberScrollState()
                     Column(modifier = Modifier.verticalScroll(scrollState)) {
                         val navController = rememberNavController()
-                        NavHost(navController = navController, startDestination = "picker") {
-                            composable("picker") { ColorPickerTypeScreen(navController) }
-                            composable("classic") { ClassicColorPickerScreen(navController) }
-                            composable("harmony") { HarmonyColorPickerScreen(navController) }
+                        NavHost(navController = navController, startDestination = Route.Picker.link) {
+                            composable(Route.Picker.link) { ColorPickerTypeScreen(navController) }
+                            composable(Route.ClassicColorPicker.link) { ClassicColorPickerScreen(navController) }
+                            composable(Route.HarmonyColorPicker.link) { HarmonyColorPickerScreen(navController) }
                         }
                     }
                 }
@@ -51,18 +54,20 @@ fun ColorPickerTypeScreen(navController: NavController) {
         TopAppBar(title = {
             Text(stringResource(R.string.compose_color_picker_sample))
         })
-        Text("Classic Picker",
+        Text(
+            stringResource(R.string.classic_color_picker_sample),
             modifier = Modifier.defaultMinSize(minHeight = 48.dp)
                 .fillMaxWidth()
                 .clickable {
-                    navController.navigate("classic")
+                    navController.navigate(Route.ClassicColorPicker.link)
                 }.padding(8.dp)
         )
-        Text("Harmony Picker",
+        Text(
+            stringResource(R.string.harmony_color_picker_sample),
             modifier = Modifier.defaultMinSize(minHeight = 48.dp)
                 .fillMaxWidth()
                 .clickable {
-                    navController.navigate("harmony")
+                    navController.navigate(Route.HarmonyColorPicker.link)
                 }.padding(8.dp)
         )
     }

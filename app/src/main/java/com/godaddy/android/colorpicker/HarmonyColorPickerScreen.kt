@@ -1,7 +1,9 @@
 package com.godaddy.android.colorpicker
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -21,9 +23,9 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         TopAppBar(title = {
             Text(stringResource(R.string.harmony_color_picker_sample))
         },
-        navigationIcon = {
-            BackButton { navController.navigateUp() }
-        })
+            navigationIcon = {
+                BackButton { navController.navigateUp() }
+            })
         val currentColor = remember {
             mutableStateOf(Color.Black)
         }
@@ -42,11 +44,11 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         }) {
             Text(harmonyMode.value.name)
         }
-        DropdownMenu(expanded.value, onDismissRequest =  {
+        DropdownMenu(expanded.value, onDismissRequest = {
             expanded.value = false
         }) {
             ColorHarmonyMode.values().forEach {
-                DropdownMenuItem(onClick =  {
+                DropdownMenuItem(onClick = {
                     harmonyMode.value = it
                     expanded.value = false
                 }) {

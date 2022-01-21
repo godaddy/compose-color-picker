@@ -30,7 +30,7 @@ internal fun HarmonyColorMagnifiers(
     )
 
     val diameterDp = with(LocalDensity.current) {
-        Dp(this.density * diameterPx)
+        diameterPx.toDp()
     }
 
     val animatedDiameter = animateDpAsState(
@@ -62,6 +62,6 @@ private fun positionForColor(color: HsvColor, size: IntSize): Offset {
     )
 }
 
-private const val diameterHarmonyColor = 0.015f
-private const val diameterMainColorDragging = 0.022f
-private const val diameterMainColor = 0.020f
+private const val diameterHarmonyColor = 0.10f
+private const val diameterMainColorDragging = 0.18f
+private const val diameterMainColor = 0.15f

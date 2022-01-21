@@ -36,7 +36,7 @@ Column {
 }
 ```
 
-Or Add the `HarmonyColorPicker` to your Compose hierarchy for a HSV circle color wheel implementation:
+Or add the `HarmonyColorPicker` to your Compose hierarchy for an HSV color wheel implementation:
 
 ```kotlin
  HarmonyColorPicker(
@@ -48,8 +48,9 @@ Or Add the `HarmonyColorPicker` to your Compose hierarchy for a HSV circle color
 })
 ```
 
-The `HarmonyColorPicker` allows for you to set a certain `ColorHarmonyMode` to enable the different options to be 
-displayed on the picker: ie complementary, triadic, analogous, shades, monochromatic, tetradic or none. 
+The `HarmonyColorPicker` allows for you to set a certain `ColorHarmonyMode` on the wheel. 
+This will then display multiple magnifiers on top of the wheel for the different harmony modes: ie complementary, triadic, analogous, shades, monochromatic, tetradic. 
+If you wish to not display other magnifiers - set `ColorHarmonyMode.NONE` as your `harmonyMode` on the wheel.
 
 # ClassicColorPicker: 
 ## Customizing the control
@@ -88,6 +89,19 @@ ClassicColorPicker(
 
 ## Customizing the control
 
+### Harmony Mode
+
+To change the harmony mode of the picker, pass in a different mode into the function:
+
+```kotlin
+HarmonyColorPicker(
+    harmonyMode = ColorHarmonyMode.SHADES,
+    modifier = Modifier.size(400.dp),
+    onColorChanged = { hsvColor ->
+               // do stuff with new color
+})
+```
+
 ### Size
 
 To change the size of the control, pass in the `Modifier` option:
@@ -102,20 +116,6 @@ HarmonyColorPicker(
     }
 )
 ```
-
-### Harmony Mode
-
-To Change the harmony mode of the picker, pass in a different mode into the function:
-
-```kotlin
-HarmonyColorPicker(
-    harmonyMode = ColorHarmonyMode.SHADES,
-    modifier = Modifier.size(400.dp),
-    onColorChanged = { hsvColor ->
-               // do stuff with new color
-})
-```
-
 
 # Library Contribution Information
 

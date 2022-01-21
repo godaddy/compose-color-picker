@@ -18,6 +18,8 @@ internal fun BrightnessBar(
         modifier = modifier,
         value = currentColor.value, onValueChange = {
             onValueChange(it)
-        }, colors = SliderDefaults.colors(activeTrackColor = MaterialTheme.colors.primary, thumbColor = MaterialTheme.colors.primary)
+        }, colors = SliderDefaults.colors(
+            activeTrackColor = MaterialTheme.colors.primary,
+            thumbColor = MaterialTheme.colors.primary)
     )
 }

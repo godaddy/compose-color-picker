@@ -3,7 +3,8 @@ package com.godaddy.android.colorpicker
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,9 +22,9 @@ fun ClassicColorPickerScreen(navController: NavController) {
         TopAppBar(title = {
             Text(stringResource(R.string.classic_color_picker_sample))
         },
-        navigationIcon = {
-            BackButton { navController.navigateUp() }
-        })
+            navigationIcon = {
+                BackButton { navController.navigateUp() }
+            })
         val currentColor = remember {
             mutableStateOf(Color.Black)
         }

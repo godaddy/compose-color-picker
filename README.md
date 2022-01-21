@@ -2,9 +2,12 @@
 
 ![Maven Central](https://img.shields.io/maven-central/v/com.godaddy.android.colorpicker/compose-color-picker?style=flat-square)
 
-A component that provides an HSV color picker, written in Jetpack compose.
+A component that provides two different HSV color pickers, written in Jetpack Compose.
+1. ClassicColorPicker - Square picker with alpha channel
+2. HarmonyColorPicker - Circular wheel with harmony modes (ie complementary, triadic, analogous, shades, monochromatic, tetradic)
 
 <img src="screenshots/ColorPicker.gif" width="200"  />
+<img src="screenshots/ColorPicker-Harmony.gif" width="200"  />
 
 ## How to get started
 
@@ -21,7 +24,7 @@ implementation 'com.godaddy.android.colorpicker:compose-color-picker-jvm:<latest
 
 Add `ClassicColorPicker` to your Compose hierarchy:
 
-```
+```kotlin
 import com.godaddy.android.colorpicker.HsvColor
 
 Column {
@@ -33,13 +36,29 @@ Column {
 }
 ```
 
+Or Add the `HarmonyColorPicker` to your Compose hierarchy for a HSV circle color wheel implementation:
+
+```kotlin
+ HarmonyColorPicker(
+    harmonyMode = harmonyMode.value,
+    modifier = Modifier.size(400.dp),
+    onColorChanged = { hsvColor ->
+        currentColor.value = hsvColor.toColor()
+        extraColors.value = hsvColor.getColors(colorHarmonyMode = harmonyMode.value) 
+})
+```
+
+The `HarmonyColorPicker` allows for you to set a certain `ColorHarmonyMode` to enable the different options to be 
+displayed on the picker: ie complementary, triadic, analogous, shades, monochromatic, tetradic or none. 
+
+# ClassicColorPicker: 
 ## Customizing the control
 
 ### Size
 
 To change the size of the control, pass in the `Modifier` option:
 
-```
+```kotlin
 import com.godaddy.android.colorpicker.HsvColor
 
 ClassicColorPicker(
@@ -54,7 +73,7 @@ ClassicColorPicker(
 
 To hide the alpha bar, change the `showAlphaBar` parameter:
 
-```
+```kotlin
 import com.godaddy.android.colorpicker.HsvColor
 
 ClassicColorPicker(
@@ -65,6 +84,40 @@ ClassicColorPicker(
 )
 ```
 
+## HarmonyColorPicker
+
+## Customizing the control
+
+### Size
+
+To change the size of the control, pass in the `Modifier` option:
+
+```kotlin
+import com.godaddy.android.colorpicker.HsvColor
+
+HarmonyColorPicker(
+    modifier = Modifier.height(200.dp),
+    onColorChanged = { color: HsvColor ->
+        // Do something with the color
+    }
+)
+```
+
+### Harmony Mode
+
+To Change the harmony mode of the picker, pass in a different mode into the function:
+
+```kotlin
+HarmonyColorPicker(
+    harmonyMode = ColorHarmonyMode.SHADES,
+    modifier = Modifier.size(400.dp),
+    onColorChanged = { hsvColor ->
+               // do stuff with new color
+})
+```
+
+
+# Library Contribution Information
 
 ### To make a release
 

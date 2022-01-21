@@ -1,10 +1,7 @@
 package com.godaddy.android.colorpicker
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -60,11 +57,11 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         HarmonyColorPicker(
             harmonyMode = harmonyMode.value,
             modifier = Modifier.size(400.dp),
-            onColorChanged = { hsvColor, harmonyColors ->
+            onColorChanged = { hsvColor ->
                 currentColor.value = hsvColor.toColor()
-                extraColors.value = harmonyColors
+                extraColors.value = hsvColor.getColors(colorHarmonyMode = harmonyMode.value)
             })
-        ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(60.dp), colors = extraColors.value)
+        ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors.value)
     }
 
 }

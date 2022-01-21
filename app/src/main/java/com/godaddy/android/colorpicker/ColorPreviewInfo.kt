@@ -1,7 +1,12 @@
 package com.godaddy.android.colorpicker
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -31,4 +36,27 @@ fun ColorPreviewInfo(currentColor: Color) {
         )
         Spacer(Modifier.height(16.dp))
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ColorPaletteBar(
+    modifier: Modifier = Modifier,
+    colors: List<HsvColor>
+) {
+    LazyVerticalGrid(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        cells = GridCells.Adaptive(48.dp),
+        modifier = modifier
+            .fillMaxWidth(),
+        contentPadding = PaddingValues(16.dp),
+        content = {
+            items(colors) { color ->
+                Canvas(modifier = Modifier.size(48.dp)) {
+                    drawCircle(color.toColor())
+                }
+            }
+        }
+    )
 }

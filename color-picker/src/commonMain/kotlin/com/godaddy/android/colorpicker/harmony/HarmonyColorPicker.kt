@@ -82,7 +82,6 @@ private fun HarmonyColorPickerWithMagnifiers(
     onColorChanged: (HsvColor) -> Unit,
     harmonyMode: ColorHarmonyMode
 ) {
-
     BoxWithConstraints(
         modifier = modifier
             .defaultMinSize(minWidth = 48.dp)
@@ -90,40 +89,41 @@ private fun HarmonyColorPickerWithMagnifiers(
             .aspectRatio(1f, matchHeightConstraintsFirst = true)
 
     ) {
-        BoxWithConstraints {
-            val diameterPx = constraints.maxWidth
-            var currentlyDragging by remember {
-                mutableStateOf(false)
-            }
-            val inputModifier = Modifier.pointerInput(Unit) {
-                fun updateColorWheel(newPosition: Offset) {
-                    // Work out if the new position is inside the circle we are drawing, and has a
-                    // valid color associated to it. If not, keep the current position
-                    val newColor = colorForPosition(newPosition, IntSize(diameterPx, diameterPx), hsvColor.value.value)
-                    if (newColor != null) {
-                        onColorChanged(newColor)
-                    }
-                }
-
-                forEachGesture {
-                    awaitPointerEventScope {
-                        val down = awaitFirstDown(false)
-                        currentlyDragging = true
-                        updateColorWheel(down.position)
-                        drag(down.id) { change ->
-                            change.consumePositionChange()
-                            updateColorWheel(change.position)
-                        }
-                        currentlyDragging = false
-                    }
+        val diameterPx = remember(constraints.maxWidth) {
+            mutableStateOf(constraints.maxWidth)
+        }
+        var currentlyDragging by remember {
+            mutableStateOf(false)
+        }
+        val inputModifier = Modifier.pointerInput(diameterPx) {
+            fun updateColorWheel(newPosition: Offset) {
+                // Work out if the new position is inside the circle we are drawing, and has a
+                // valid color associated to it. If not, keep the current position
+                val newColor = colorForPosition(newPosition, IntSize(diameterPx.value, diameterPx.value), hsvColor.value.value)
+                if (newColor != null) {
+                    onColorChanged(newColor)
                 }
             }
 
-            Box(inputModifier.fillMaxSize()) {
-                ColorWheel(hsvColor = hsvColor.value, diameter = diameterPx)
-                HarmonyColorMagnifiers(diameterPx, hsvColor.value, currentlyDragging, harmonyMode)
+            forEachGesture {
+                awaitPointerEventScope {
+                    val down = awaitFirstDown(false)
+                    currentlyDragging = true
+                    updateColorWheel(down.position)
+                    drag(down.id) { change ->
+                        change.consumePositionChange()
+                        updateColorWheel(change.position)
+                    }
+                    currentlyDragging = false
+                }
             }
         }
+
+        Box(inputModifier.fillMaxSize()) {
+            ColorWheel(hsvColor = hsvColor.value, diameter = diameterPx.value)
+            HarmonyColorMagnifiers(diameterPx.value, hsvColor.value, currentlyDragging, harmonyMode)
+        }
+
     }
 }
 

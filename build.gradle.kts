@@ -22,3 +22,9 @@ allprojects {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
+
+plugins {
+    id("com.diffplug.spotless") version "6.2.0"
+}
+
+apply("${project.rootDir}/gradle/spotless.gradle")

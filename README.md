@@ -44,15 +44,15 @@ Or add the `HarmonyColorPicker` to your Compose hierarchy for an HSV color wheel
     modifier = Modifier.size(400.dp),
     onColorChanged = { hsvColor ->
         currentColor.value = hsvColor.toColor()
-        extraColors.value = hsvColor.getColors(colorHarmonyMode = harmonyMode.value) 
+        extraColors.value = hsvColor.getColors(colorHarmonyMode = harmonyMode.value)
 })
 ```
 
-The `HarmonyColorPicker` allows for you to set a certain `ColorHarmonyMode` on the wheel. 
-This will then display multiple magnifiers on top of the wheel for the different harmony modes: ie complementary, triadic, analogous, shades, monochromatic, tetradic. 
+The `HarmonyColorPicker` allows for you to set a certain `ColorHarmonyMode` on the wheel.
+This will then display multiple magnifiers on top of the wheel for the different harmony modes: ie complementary, triadic, analogous, shades, monochromatic, tetradic.
 If you wish to not display other magnifiers - set `ColorHarmonyMode.NONE` as your `harmonyMode` on the wheel.
 
-# ClassicColorPicker: 
+# ClassicColorPicker:
 ## Customizing the control
 
 ### Size
@@ -119,11 +119,14 @@ HarmonyColorPicker(
 
 # Library Contribution Information
 
-### To make a release
+## Code Formatting
+
+This project uses spotless to enforce code formatting. Run `./gradlew spotlessApply` to run formatting before committing.
+
+### Releases
 
 1. Update the version number in color-picker/build.gradle.kts
 2. Make a PR into main and get that merged
 3. Run "Deploy to Sonatype" GitHub Action.
-4. Login to Sonatype and "Close" release. After a few minutes, click "Release". 
+4. Login to Sonatype and "Close" release. After a few minutes, click "Release".
 5. Release should then be available for download on maven (might take like 30 min to propagate).
-

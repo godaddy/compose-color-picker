@@ -4,7 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,12 +24,14 @@ import com.godaddy.android.colorpicker.theme.BackButton
 @Composable
 fun HarmonyColorPickerScreen(navController: NavController) {
     Column {
-        TopAppBar(title = {
-            Text(stringResource(R.string.harmony_color_picker_sample))
-        },
+        TopAppBar(
+            title = {
+                Text(stringResource(R.string.harmony_color_picker_sample))
+            },
             navigationIcon = {
                 BackButton { navController.navigateUp() }
-            })
+            }
+        )
         val currentColor = remember {
             mutableStateOf(Color.Black)
         }
@@ -62,8 +68,8 @@ fun HarmonyColorPickerScreen(navController: NavController) {
             onColorChanged = { hsvColor ->
                 currentColor.value = hsvColor.toColor()
                 extraColors.value = hsvColor.getColors(colorHarmonyMode = harmonyMode.value)
-            })
+            }
+        )
         ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors.value)
     }
-
 }

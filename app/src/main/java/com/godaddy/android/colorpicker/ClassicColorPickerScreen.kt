@@ -19,12 +19,14 @@ import com.godaddy.android.colorpicker.theme.ComposeColorPickerTheme
 @Composable
 fun ClassicColorPickerScreen(navController: NavController) {
     Column {
-        TopAppBar(title = {
-            Text(stringResource(R.string.classic_color_picker_sample))
-        },
+        TopAppBar(
+            title = {
+                Text(stringResource(R.string.classic_color_picker_sample))
+            },
             navigationIcon = {
                 BackButton { navController.navigateUp() }
-            })
+            }
+        )
         val currentColor = remember {
             mutableStateOf(Color.Black)
         }
@@ -40,9 +42,7 @@ fun ClassicColorPickerScreen(navController: NavController) {
             }
         )
     }
-
 }
-
 
 @Composable
 fun ClassicColorPickerPreview() {
@@ -51,9 +51,8 @@ fun ClassicColorPickerPreview() {
             modifier = Modifier.height(300.dp),
             color = Color.Green,
             onColorChanged = {
-
-            })
-
+            }
+        )
     }
 }
 
@@ -65,7 +64,7 @@ fun ClassicColorPickerNoAlphaPreview() {
             color = Color.Magenta,
             showAlphaBar = false,
             onColorChanged = {
-
-            })
+            }
+        )
     }
 }

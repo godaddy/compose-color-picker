@@ -13,7 +13,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.consumePositionChange
@@ -52,22 +51,23 @@ internal fun SaturationValueArea(
         )
     }
 
-    Canvas(modifier = modifier
-        .fillMaxSize()
-        .pointerInput(Unit) {
-            forEachGesture {
-                awaitPointerEventScope {
-                    val down = awaitFirstDown()
-                    val (s, v) = getSaturationPoint(down.position, size)
-                    onSaturationValueChanged(s, v)
-                    drag(down.id) { change ->
-                        change.consumePositionChange()
-                        val (newSaturation, newValue) = getSaturationPoint(change.position, size)
-                        onSaturationValueChanged(newSaturation, newValue)
+    Canvas(
+        modifier = modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                forEachGesture {
+                    awaitPointerEventScope {
+                        val down = awaitFirstDown()
+                        val (s, v) = getSaturationPoint(down.position, size)
+                        onSaturationValueChanged(s, v)
+                        drag(down.id) { change ->
+                            change.consumePositionChange()
+                            val (newSaturation, newValue) = getSaturationPoint(change.position, size)
+                            onSaturationValueChanged(newSaturation, newValue)
+                        }
                     }
                 }
             }
-        }
     ) {
         drawRect(blackGradientBrush)
         drawRect(currentColorGradientBrush, blendMode = BlendMode.Modulate)

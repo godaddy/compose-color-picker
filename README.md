@@ -1,6 +1,6 @@
 # Android Jetpack Compose Color Picker 🎨
 
-![Maven Central](https://img.shields.io/maven-central/v/com.godaddy.android.colorpicker/compose-color-picker?style=flat-square)
+![Maven Central](https://img.shields.io/maven-central/v/com.godaddy.android.colorpicker/compose-color-picker-android?style=flat-square)
 
 A component that provides two different HSV color pickers, written in Jetpack Compose.
 1. ClassicColorPicker - Square picker with alpha channel

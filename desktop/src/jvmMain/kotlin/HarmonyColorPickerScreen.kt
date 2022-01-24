@@ -1,10 +1,20 @@
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,8 +34,10 @@ fun HarmonyColorPickerScreen() {
         val extraColors = remember {
             mutableStateOf(emptyList<HsvColor>())
         }
-        ColorPaletteBar(modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-            colors = listOf(HsvColor.from(currentColor.value)).plus(extraColors.value))
+        ColorPaletteBar(
+            modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+            colors = listOf(HsvColor.from(currentColor.value)).plus(extraColors.value)
+        )
         val expanded = remember {
             mutableStateOf(false)
         }
@@ -37,11 +49,11 @@ fun HarmonyColorPickerScreen() {
         }) {
             Text(harmonyMode.value.name)
         }
-        DropdownMenu(expanded.value, onDismissRequest =  {
+        DropdownMenu(expanded.value, onDismissRequest = {
             expanded.value = false
         }) {
             ColorHarmonyMode.values().forEach {
-                DropdownMenuItem(onClick =  {
+                DropdownMenuItem(onClick = {
                     harmonyMode.value = it
                     expanded.value = false
                 }) {
@@ -55,7 +67,8 @@ fun HarmonyColorPickerScreen() {
             onColorChanged = { hsvColor ->
                 currentColor.value = hsvColor.toColor()
                 extraColors.value = hsvColor.getColors(harmonyMode.value)
-            })
+            }
+        )
     }
 }
 

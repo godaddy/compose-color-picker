@@ -3,7 +3,14 @@ package com.godaddy.android.colorpicker
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
@@ -21,9 +28,9 @@ fun ColorPreviewInfo(currentColor: Color) {
         Text(
             modifier = Modifier.padding(16.dp),
             text = "a: ${currentColor.alpha} \n" +
-                    "r: ${currentColor.red} \n" +
-                    "g: ${currentColor.green} \n" +
-                    "b: ${currentColor.blue}"
+                "r: ${currentColor.red} \n" +
+                "g: ${currentColor.green} \n" +
+                "b: ${currentColor.blue}"
         )
         Spacer(
             modifier = Modifier

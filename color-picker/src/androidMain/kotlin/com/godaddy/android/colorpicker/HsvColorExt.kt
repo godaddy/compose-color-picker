@@ -5,6 +5,6 @@ package com.godaddy.android.colorpicker
  *
  * returns @ColorInt
  */
-fun HsvColor.toColorInt() : Int{
+fun HsvColor.toColorInt(): Int {
     return android.graphics.Color.HSVToColor((alpha * 255).toInt(), floatArrayOf(hue, saturation, value))
 }

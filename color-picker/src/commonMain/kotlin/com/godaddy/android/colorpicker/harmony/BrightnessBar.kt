@@ -5,7 +5,6 @@ import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.godaddy.android.colorpicker.HsvColor
 
 @Composable
@@ -18,8 +17,10 @@ internal fun BrightnessBar(
         modifier = modifier,
         value = currentColor.value, onValueChange = {
             onValueChange(it)
-        }, colors = SliderDefaults.colors(
+        },
+        colors = SliderDefaults.colors(
             activeTrackColor = MaterialTheme.colors.primary,
-            thumbColor = MaterialTheme.colors.primary)
+            thumbColor = MaterialTheme.colors.primary
+        )
     )
 }

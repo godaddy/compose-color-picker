@@ -123,7 +123,6 @@ private fun HarmonyColorPickerWithMagnifiers(
             ColorWheel(hsvColor = hsvColor.value, diameter = diameterPx.value)
             HarmonyColorMagnifiers(diameterPx.value, hsvColor.value, currentlyDragging, harmonyMode)
         }
-
     }
 }
 

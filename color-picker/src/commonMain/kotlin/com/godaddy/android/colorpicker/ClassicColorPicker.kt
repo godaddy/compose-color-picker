@@ -5,14 +5,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.unit.dp
 
 /**
@@ -39,7 +36,8 @@ fun ClassicColorPicker(
         val barThickness = 32.dp
         val paddingBetweenBars = 8.dp
         Column(modifier = Modifier.weight(0.8f)) {
-            SaturationValueArea(modifier = Modifier.weight(0.8f),
+            SaturationValueArea(
+                modifier = Modifier.weight(0.8f),
                 currentColor = colorPickerValueState.value,
                 onSaturationValueChanged = { saturation, value ->
                     colorPickerValueState.value =
@@ -49,7 +47,8 @@ fun ClassicColorPicker(
             )
             if (showAlphaBar) {
                 Spacer(modifier = Modifier.height(paddingBetweenBars))
-                AlphaBar(modifier = Modifier.height(barThickness),
+                AlphaBar(
+                    modifier = Modifier.height(barThickness),
                     currentColor = colorPickerValueState.value,
                     onAlphaChanged = { alpha ->
                         colorPickerValueState.value = colorPickerValueState.value.copy(alpha = alpha)
@@ -69,4 +68,3 @@ fun ClassicColorPicker(
         )
     }
 }
-

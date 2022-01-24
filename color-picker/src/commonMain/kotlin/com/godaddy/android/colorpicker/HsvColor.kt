@@ -1,6 +1,5 @@
 package com.godaddy.android.colorpicker
 
-
 /**
  * A representation of Color in Hue, Saturation and Value form.
  */
@@ -16,16 +15,16 @@ import com.godaddy.android.colorpicker.harmony.ColorHarmonyMode
  */
 data class HsvColor(
 
-    //from = 0.0, to = 360.0
+    // from = 0.0, to = 360.0
     val hue: Float,
 
-    //from = 0.0, to = 1.0
+    // from = 0.0, to = 1.0
     val saturation: Float,
 
-    //from = 0.0, to = 1.0
+    // from = 0.0, to = 1.0
     val value: Float,
 
-    //from = 0.0, to = 1.0
+    // from = 0.0, to = 1.0
     val alpha: Float
 ) {
 
@@ -110,7 +109,6 @@ data class HsvColor(
             ColorHarmonyMode.SHADES -> getShadeColors()
         }
     }
-
 
     companion object {
 

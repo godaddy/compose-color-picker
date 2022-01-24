@@ -31,20 +31,21 @@ internal fun HueBar(
     val rainbowBrush = remember {
         Brush.verticalGradient(getRainbowColors())
     }
-    Canvas(modifier = modifier
-        .fillMaxSize()
-        .pointerInput(Unit) {
-            forEachGesture {
-                awaitPointerEventScope {
-                    val down = awaitFirstDown()
-                    onHueChanged(getHueFromPoint(down.position.y, size.height.toFloat()))
-                    drag(down.id) { change ->
-                        change.consumePositionChange()
-                        onHueChanged(getHueFromPoint(change.position.y, size.height.toFloat()))
+    Canvas(
+        modifier = modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                forEachGesture {
+                    awaitPointerEventScope {
+                        val down = awaitFirstDown()
+                        onHueChanged(getHueFromPoint(down.position.y, size.height.toFloat()))
+                        drag(down.id) { change ->
+                            change.consumePositionChange()
+                            onHueChanged(getHueFromPoint(change.position.y, size.height.toFloat()))
+                        }
                     }
                 }
             }
-        }
     ) {
         drawRect(rainbowBrush)
         drawRect(Color.Gray, style = Stroke(0.5.dp.toPx()))
@@ -54,7 +55,7 @@ internal fun HueBar(
     }
 }
 
-private fun getRainbowColors() : List<Color> {
+private fun getRainbowColors(): List<Color> {
     return listOf(
         Color(0xFFFF0040),
         Color(0xFFFF00FF),

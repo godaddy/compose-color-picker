@@ -41,30 +41,32 @@ internal fun AlphaBar(
             )
         )
     }
-    Canvas(modifier = modifier
-        .fillMaxSize()
-        .pointerInput(Unit) {
-            forEachGesture {
-                awaitPointerEventScope {
-                    val down = awaitFirstDown()
-                    onAlphaChanged(
-                        getAlphaFromPosition(
-                            down.position.x,
-                            this.size.width.toFloat()
-                        ).coerceIn(0f, 1f)
-                    )
-                    drag(down.id) { change ->
-                        change.consumePositionChange()
+    Canvas(
+        modifier = modifier
+            .fillMaxSize()
+            .pointerInput(Unit) {
+                forEachGesture {
+                    awaitPointerEventScope {
+                        val down = awaitFirstDown()
                         onAlphaChanged(
                             getAlphaFromPosition(
-                                change.position.x,
+                                down.position.x,
                                 this.size.width.toFloat()
                             ).coerceIn(0f, 1f)
                         )
+                        drag(down.id) { change ->
+                            change.consumePositionChange()
+                            onAlphaChanged(
+                                getAlphaFromPosition(
+                                    change.position.x,
+                                    this.size.width.toFloat()
+                                ).coerceIn(0f, 1f)
+                            )
+                        }
                     }
                 }
             }
-        }) {
+    ) {
 
         clipRect {
             drawCheckeredBackground()

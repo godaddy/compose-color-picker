@@ -10,6 +10,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
 import com.godaddy.android.colorpicker.HsvColor
+import com.godaddy.android.colorpicker.toRadian
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -51,10 +52,10 @@ internal fun HarmonyColorMagnifiers(
 }
 
 private fun positionForColor(color: HsvColor, size: IntSize): Offset {
-    val radians = Math.toRadians(color.hue.toDouble())
+    val radians = color.hue.toRadian()
     val phi = color.saturation
-    val x: Float = ((phi * cos(radians)).toFloat() + 1) / 2f
-    val y: Float = ((phi * sin(radians)).toFloat() + 1) / 2f
+    val x: Float = ((phi * cos(radians)) + 1) / 2f
+    val y: Float = ((phi * sin(radians)) + 1) / 2f
     return Offset(
         x = (x * size.width),
         y = (y * size.height)

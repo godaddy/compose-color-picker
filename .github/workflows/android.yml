@@ -22,5 +22,18 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    - name: Configure GPG Key
+      run: |
+        mkdir ~/.gpgkey
+        echo $GPG_KEY > ~/.gpgkey/secring.gpg.b64
+        base64 -d ~/.gpgkey/secring.gpg.b64 > ~/.gpgkey/secring.gpg
+      env:
+        GPG_KEY: ${{ secrets.GPG_KEY }}
     - name: Build with Gradle
-      run: ./gradlew build
+      env:
+        ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+        ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+      run: |
+        ./gradlew build --no-parallel --no-daemon -Psigning.keyId=${{secrets.GPG_KEY_ID}} -Psigning.password=${{secrets.GPG_KEY_PASSWORD}} -Psigning.secretKeyRingFile=$(echo ~/.gpgkey/secring.gpg)
+    - name: Run spotless
+      run: ./gradlew spotlessCheck

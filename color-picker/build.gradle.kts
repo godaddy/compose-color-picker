@@ -98,7 +98,7 @@ publishing {
     publications.withType(MavenPublication::class) {
         groupId = "com.godaddy.android.colorpicker"
         artifactId = "compose-color-picker"
-        version = "0.4.1"
+        version = "0.4.2"
 
         artifact(tasks["javadocJar"])
 

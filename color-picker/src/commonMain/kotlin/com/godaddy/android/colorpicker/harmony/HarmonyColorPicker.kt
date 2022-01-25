@@ -27,6 +27,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.godaddy.android.colorpicker.HsvColor
+import com.godaddy.android.colorpicker.toDegree
 import kotlin.math.atan2
 import kotlin.math.hypot
 import kotlin.math.min
@@ -133,7 +134,7 @@ private fun colorForPosition(position: Offset, size: IntSize, value: Float): Hsv
     val xOffset: Double = position.x - centerX
     val yOffset: Double = position.y - centerY
     val centerOffset = hypot(xOffset, yOffset)
-    val rawAngle = Math.toDegrees(atan2(yOffset, xOffset))
+    val rawAngle = atan2(yOffset, xOffset).toDegree()
     val centerAngle = (rawAngle + 360.0) % 360.0
     return if (centerOffset <= radius) {
         HsvColor(

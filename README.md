@@ -6,8 +6,11 @@ A component that provides two different HSV color pickers, written in Jetpack Co
 1. ClassicColorPicker - Square picker with alpha channel
 2. HarmonyColorPicker - Circular wheel with harmony modes (ie complementary, triadic, analogous, shades, monochromatic, tetradic)
 
-<img src="screenshots/ColorPicker.gif" width="200"  />
-<img src="screenshots/ColorPicker-Harmony.gif" width="200"  />
+
+https://user-images.githubusercontent.com/9973046/154516879-495a6816-9595-49b9-beaf-dafc2e1110ec.mp4
+
+https://user-images.githubusercontent.com/9973046/154515203-f0818a14-3bb0-4e5a-91fc-f3cac2e2e770.mp4
+
 
 ## How to get started
 

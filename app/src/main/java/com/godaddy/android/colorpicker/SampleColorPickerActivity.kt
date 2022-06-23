@@ -7,15 +7,21 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -32,6 +38,10 @@ class SampleColorPickerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeColorPickerTheme {
+                val openDialog = remember { mutableStateOf(false) }
+                val currentColor = remember {
+                    mutableStateOf(Color.Black)
+                }
                 Surface(color = MaterialTheme.colors.background) {
                     val scrollState = rememberScrollState()
                     Column(modifier = Modifier.verticalScroll(scrollState)) {
@@ -41,7 +51,50 @@ class SampleColorPickerActivity : ComponentActivity() {
                             composable(Route.ClassicColorPicker.link) { ClassicColorPickerScreen(navController) }
                             composable(Route.HarmonyColorPicker.link) { HarmonyColorPickerScreen(navController) }
                         }
+                        Text(
+                            text = "Dialog",
+                            modifier = Modifier.clickable {
+                                openDialog.value = true
+                            }.padding(8.dp).fillMaxWidth()
+                        )
                     }
+                }
+                if (openDialog.value) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            openDialog.value = false
+                        },
+                        text = {
+                            ClassicColorPicker(
+                                color = currentColor.value,
+                                modifier = Modifier
+                                    .height(300.dp)
+                                    .padding(16.dp),
+                                onColorChanged = { hsvColor: HsvColor ->
+                                    // Triggered when the color changes, do something with the newly picked color here!
+                                    currentColor.value = hsvColor.toColor()
+                                }
+                            )
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    openDialog.value = false
+                                }
+                            ) {
+                                Text("Confirm")
+                            }
+                        },
+                        dismissButton = {
+                            TextButton(
+                                onClick = {
+                                    openDialog.value = false
+                                }
+                            ) {
+                                Text("Dismiss")
+                            }
+                        }
+                    )
                 }
             }
         }

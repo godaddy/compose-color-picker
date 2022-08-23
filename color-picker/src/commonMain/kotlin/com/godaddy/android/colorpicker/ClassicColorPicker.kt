@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +34,7 @@ fun ClassicColorPicker(
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
         mutableStateOf(HsvColor.from(color))
     }
+    val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
     Row(modifier = modifier) {
         val barThickness = 32.dp
         val paddingBetweenBars = 8.dp
@@ -42,7 +45,7 @@ fun ClassicColorPicker(
                 onSaturationValueChanged = { saturation, value ->
                     colorPickerValueState.value =
                         colorPickerValueState.value.copy(saturation = saturation, value = value)
-                    onColorChanged(colorPickerValueState.value)
+                    updatedOnColorChanged(colorPickerValueState.value)
                 }
             )
             if (showAlphaBar) {
@@ -52,7 +55,7 @@ fun ClassicColorPicker(
                     currentColor = colorPickerValueState.value,
                     onAlphaChanged = { alpha ->
                         colorPickerValueState.value = colorPickerValueState.value.copy(alpha = alpha)
-                        onColorChanged(colorPickerValueState.value)
+                        updatedOnColorChanged(colorPickerValueState.value)
                     }
                 )
             }
@@ -63,7 +66,7 @@ fun ClassicColorPicker(
             currentColor = colorPickerValueState.value,
             onHueChanged = { newHue ->
                 colorPickerValueState.value = colorPickerValueState.value.copy(hue = newHue)
-                onColorChanged(colorPickerValueState.value)
+                updatedOnColorChanged(colorPickerValueState.value)
             }
         )
     }

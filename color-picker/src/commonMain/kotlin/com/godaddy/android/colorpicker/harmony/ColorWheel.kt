@@ -30,7 +30,7 @@ internal fun ColorWheel(
             HsvColor(180f, saturation, value, alpha),
             HsvColor(240f, saturation, value, alpha),
             HsvColor(300f, saturation, value, alpha),
-            HsvColor(360f, saturation, value, alpha),
+            HsvColor(360f, saturation, value, alpha)
         ).map {
             it.toColor()
         }

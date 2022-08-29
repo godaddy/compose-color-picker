@@ -68,7 +68,7 @@ private fun getRainbowColors(): List<Color> {
         Color(0xFF80FF00),
         Color(0xFFFFFF00),
         Color(0xFFFF8000),
-        Color(0xFFFF0000),
+        Color(0xFFFF0000)
     )
 }
 

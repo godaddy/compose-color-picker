@@ -15,7 +15,8 @@ internal fun BrightnessBar(
 ) {
     Slider(
         modifier = modifier,
-        value = currentColor.value, onValueChange = {
+        value = currentColor.value,
+        onValueChange = {
             onValueChange(it)
         },
         colors = SliderDefaults.colors(

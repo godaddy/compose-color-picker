@@ -8,12 +8,12 @@ buildscript {
     }
     dependencies {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("com.android.tools.build:gradle:7.0.4")
+        classpath("com.android.tools.build:gradle:7.2.2")
     }
 }
 
 group = "com.godaddy"
-version = "0.3.0"
+version = "0.4.2"
 
 allprojects {
     repositories {
@@ -24,7 +24,7 @@ allprojects {
 }
 
 plugins {
-    id("com.diffplug.spotless") version "6.2.0"
+    id("com.diffplug.spotless") version "6.10.0"
 }
 
 apply("${project.rootDir}/gradle/spotless.gradle")

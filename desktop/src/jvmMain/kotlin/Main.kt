@@ -36,7 +36,8 @@ fun main() = application {
 
                     val currentColorPicker = remember { mutableStateOf(ColorPicker.CLASSIC) }
                     TabRow(
-                        currentColorPicker.value.ordinal, tabs = {
+                        currentColorPicker.value.ordinal,
+                        tabs = {
                             Text(
                                 "Classic Picker",
                                 modifier =

@@ -46,7 +46,6 @@ fun HarmonyColorPicker(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-
             val hsvColor = remember { mutableStateOf(HsvColor.from(color)) }
 
             HarmonyColorPickerWithMagnifiers(

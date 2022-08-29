@@ -1,3 +1,4 @@
+// ktlint-disable filename
 package com.godaddy.android.colorpicker.theme
 
 import androidx.compose.material.Icon

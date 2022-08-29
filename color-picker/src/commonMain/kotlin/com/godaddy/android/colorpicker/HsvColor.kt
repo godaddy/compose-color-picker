@@ -48,7 +48,7 @@ data class HsvColor(
             this.copy(hue = (hue + 150) % 360, saturation = (saturation - 0.05f).coerceIn(0.0f, 1f), value = (value - 0.3f).coerceIn(0.0f, 1f)),
             this.copy(hue = (hue + 210) % 360, saturation = (saturation - 0.05f).coerceIn(0.0f, 1f), value = (value - 0.3f).coerceIn(0.0f, 1f)),
             this.copy(hue = (hue + 150) % 360), // actual
-            this.copy(hue = (hue + 210) % 360), // actual
+            this.copy(hue = (hue + 210) % 360) // actual
         )
     }
 
@@ -57,7 +57,7 @@ data class HsvColor(
             this.copy(hue = (hue + 120) % 360, saturation = (saturation - 0.05f).coerceIn(0.0f, 1f), value = (value - 0.3f).coerceIn(0.0f, 1f)),
             this.copy(hue = (hue + 120) % 360),
             this.copy(hue = (hue + 240) % 360, saturation = (saturation - 0.05f).coerceIn(0.0f, 1f), value = (value - 0.3f).coerceIn(0.0f, 1f)),
-            this.copy(hue = (hue + 240) % 360),
+            this.copy(hue = (hue + 240) % 360)
         )
     }
 
@@ -66,7 +66,7 @@ data class HsvColor(
             this.copy(saturation = (saturation + 0.2f).coerceIn(0.0f, 1f)), // bonus one
             this.copy(hue = (hue + 90) % 360),
             this.copy(hue = (hue + 180) % 360),
-            this.copy(hue = (hue + 270) % 360),
+            this.copy(hue = (hue + 270) % 360)
         )
     }
 
@@ -75,7 +75,7 @@ data class HsvColor(
             this.copy(hue = (hue + 30) % 360),
             this.copy(hue = (hue + 60) % 360),
             this.copy(hue = (hue + 90) % 360),
-            this.copy(hue = (hue + 120) % 360),
+            this.copy(hue = (hue + 120) % 360)
         )
     }
 
@@ -84,7 +84,7 @@ data class HsvColor(
             this.copy(saturation = (saturation + 0.2f).mod(1f)),
             this.copy(saturation = (saturation + 0.4f).mod(1f)),
             this.copy(saturation = (saturation + 0.6f).mod(1f)),
-            this.copy(saturation = (saturation + 0.8f).mod(1f)),
+            this.copy(saturation = (saturation + 0.8f).mod(1f))
         )
     }
 
@@ -93,7 +93,7 @@ data class HsvColor(
             this.copy(value = (value - 0.10f).mod(1.0f).coerceAtLeast(0.2f)),
             this.copy(value = (value + 0.55f).mod(1.0f).coerceAtLeast(0.55f)),
             this.copy(value = (value + 0.30f).mod(1.0f).coerceAtLeast(0.3f)),
-            this.copy(value = (value + 0.05f).mod(1.0f).coerceAtLeast(0.2f)),
+            this.copy(value = (value + 0.05f).mod(1.0f).coerceAtLeast(0.2f))
         )
     }
 
@@ -131,7 +131,7 @@ data class HsvColor(
                 color.red,
                 color.green,
                 color.blue,
-                color.alpha,
+                color.alpha
             ).toHSV().toColor()
         }
 

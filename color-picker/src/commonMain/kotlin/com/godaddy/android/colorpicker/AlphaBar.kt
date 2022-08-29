@@ -33,11 +33,11 @@ internal fun AlphaBar(
     currentColor: HsvColor,
     onAlphaChanged: (Float) -> Unit
 ) {
-
     val currentColorToAlphaBrush = remember(currentColor) {
         Brush.horizontalGradient(
             listOf(
-                currentColor.copy(alpha = 1.0f).toColor(), Color(0x00ffffff)
+                currentColor.copy(alpha = 1.0f).toColor(),
+                Color(0x00ffffff)
             )
         )
     }
@@ -67,7 +67,6 @@ internal fun AlphaBar(
                 }
             }
     ) {
-
         clipRect {
             drawCheckeredBackground()
         }

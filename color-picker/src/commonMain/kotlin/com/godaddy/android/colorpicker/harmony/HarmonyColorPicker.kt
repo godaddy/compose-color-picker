@@ -19,6 +19,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -48,6 +49,7 @@ fun HarmonyColorPicker(
                 .fillMaxWidth()
         ) {
             val hsvColor = remember { mutableStateOf(HsvColor.from(color)) }
+            val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
 
             HarmonyColorPickerWithMagnifiers(
                 modifier = Modifier
@@ -56,7 +58,7 @@ fun HarmonyColorPicker(
                 hsvColor = hsvColor,
                 onColorChanged = {
                     hsvColor.value = it
-                    onColorChanged(it)
+                    updatedOnColorChanged(it)
                 },
                 harmonyMode = harmonyMode
             )
@@ -68,7 +70,7 @@ fun HarmonyColorPicker(
                     .weight(0.2f),
                 onValueChange = { value ->
                     hsvColor.value = hsvColor.value.copy(value = value)
-                    onColorChanged(hsvColor.value)
+                    updatedOnColorChanged(hsvColor.value)
                 },
                 currentColor = hsvColor.value
             )
@@ -90,6 +92,7 @@ private fun HarmonyColorPickerWithMagnifiers(
             .aspectRatio(1f, matchHeightConstraintsFirst = true)
 
     ) {
+        val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
         val diameterPx = remember(constraints.maxWidth) {
             mutableStateOf(constraints.maxWidth)
         }
@@ -111,7 +114,7 @@ private fun HarmonyColorPickerWithMagnifiers(
             val newColor = colorForPosition(newPosition, magnifierSize.value, hsvColor.value.value)
             if (newColor != null) {
                 animateChanges = animate
-                onColorChanged(newColor)
+                updatedOnColorChanged(newColor)
             }
         }
 

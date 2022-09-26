@@ -1,11 +1,13 @@
 package com.godaddy.android.colorpicker.harmony
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateOffsetAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntSize
@@ -18,23 +20,35 @@ import kotlin.math.sin
 internal fun HarmonyColorMagnifiers(
     diameterPx: Int,
     hsvColor: HsvColor,
-    currentlyDragging: Boolean,
+    animateChanges: Boolean,
+    currentlyChangingInput: Boolean,
     harmonyMode: ColorHarmonyMode
 ) {
     val size = IntSize(diameterPx, diameterPx)
-    val position = positionForColor(hsvColor, size)
+    val position = remember(hsvColor, size) {
+        positionForColor(hsvColor, size)
+    }
 
-    val positionAnimated by animateOffsetAsState(
-        targetValue = position,
-        animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
-    )
+    val positionAnimated = remember {
+        Animatable(position, typeConverter = Offset.VectorConverter)
+    }
+    LaunchedEffect(hsvColor, size, animateChanges) {
+        if (!animateChanges) {
+            positionAnimated.snapTo(positionForColor(hsvColor, size))
+        } else {
+            positionAnimated.animateTo(
+                positionForColor(hsvColor, size),
+                animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
+            )
+        }
+    }
 
     val diameterDp = with(LocalDensity.current) {
         diameterPx.toDp()
     }
 
     val animatedDiameter = animateDpAsState(
-        targetValue = if (currentlyDragging) {
+        targetValue = if (!currentlyChangingInput) {
             diameterDp * diameterMainColorDragging
         } else {
             diameterDp * diameterMainColor
@@ -42,16 +56,25 @@ internal fun HarmonyColorMagnifiers(
     )
 
     hsvColor.getColors(harmonyMode).forEach { color ->
-        val positionForColor by animateOffsetAsState(
-            targetValue = positionForColor(color, size),
-            animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
-        )
-        Magnifier(position = positionForColor, color = color, diameter = diameterDp * diameterHarmonyColor)
+        val positionForColor = remember {
+            Animatable(positionForColor(color, size), typeConverter = Offset.VectorConverter)
+        }
+        LaunchedEffect(color, size, animateChanges) {
+            if (!animateChanges) {
+                positionForColor.snapTo(positionForColor(color, size))
+            } else {
+                positionForColor.animateTo(
+                    positionForColor(color, size),
+                    animationSpec = spring(dampingRatio = Spring.DampingRatioLowBouncy)
+                )
+            }
+        }
+        Magnifier(position = positionForColor.value, color = color, diameter = diameterDp * diameterHarmonyColor)
     }
-    Magnifier(position = positionAnimated, color = hsvColor, diameter = animatedDiameter.value)
+    Magnifier(position = positionAnimated.value, color = hsvColor, diameter = animatedDiameter.value)
 }
 
-private fun positionForColor(color: HsvColor, size: IntSize): Offset {
+internal fun positionForColor(color: HsvColor, size: IntSize): Offset {
     val radians = color.hue.toRadian()
     val phi = color.saturation
     val x: Float = ((phi * cos(radians)) + 1) / 2f

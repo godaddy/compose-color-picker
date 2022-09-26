@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -92,36 +93,52 @@ private fun HarmonyColorPickerWithMagnifiers(
         val diameterPx = remember(constraints.maxWidth) {
             mutableStateOf(constraints.maxWidth)
         }
-        var currentlyDragging by remember {
+        val magnifierSize = remember {
+            derivedStateOf {
+                IntSize(diameterPx.value, diameterPx.value)
+            }
+        }
+        var animateChanges by remember {
             mutableStateOf(false)
         }
-        val inputModifier = Modifier.pointerInput(diameterPx) {
-            fun updateColorWheel(newPosition: Offset) {
-                // Work out if the new position is inside the circle we are drawing, and has a
-                // valid color associated to it. If not, keep the current position
-                val newColor = colorForPosition(newPosition, IntSize(diameterPx.value, diameterPx.value), hsvColor.value.value)
-                if (newColor != null) {
-                    onColorChanged(newColor)
-                }
-            }
+        var currentlyChangingInput by remember {
+            mutableStateOf(false)
+        }
 
+        fun updateColorWheel(newPosition: Offset, animate: Boolean) {
+            // Work out if the new position is inside the circle we are drawing, and has a
+            // valid color associated to it. If not, keep the current position
+            val newColor = colorForPosition(newPosition, magnifierSize.value, hsvColor.value.value)
+            if (newColor != null) {
+                animateChanges = animate
+                onColorChanged(newColor)
+            }
+        }
+
+        val inputModifier = Modifier.pointerInput(diameterPx) {
             forEachGesture {
                 awaitPointerEventScope {
                     val down = awaitFirstDown(false)
-                    currentlyDragging = true
-                    updateColorWheel(down.position)
+                    currentlyChangingInput = true
+                    updateColorWheel(down.position, animate = true)
                     drag(down.id) { change ->
+                        updateColorWheel(change.position, animate = false)
                         change.consumePositionChange()
-                        updateColorWheel(change.position)
                     }
-                    currentlyDragging = false
+                    currentlyChangingInput = false
                 }
             }
         }
 
         Box(inputModifier.fillMaxSize()) {
             ColorWheel(hsvColor = hsvColor.value, diameter = diameterPx.value)
-            HarmonyColorMagnifiers(diameterPx.value, hsvColor.value, currentlyDragging, harmonyMode)
+            HarmonyColorMagnifiers(
+                diameterPx.value,
+                hsvColor.value,
+                animateChanges,
+                currentlyChangingInput,
+                harmonyMode
+            )
         }
     }
 }

@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -39,8 +38,8 @@ import kotlin.math.min
         """HarmonyColorPicker(
             modifier = modifier,
             harmonyMode = harmonyMode,
-            color = color,
-            onValueChanged = { HsvColor.from(it).let(onColorChanged) }
+            value = HsvColor.from(color),
+            onValueChanged = onColorChanged
         )"""
     )
 )
@@ -54,8 +53,8 @@ fun HarmonyColorPicker(
     HarmonyColorPicker(
         modifier = modifier,
         harmonyMode = harmonyMode,
-        color = color,
-        onValueChanged = { HsvColor.from(it).let(onColorChanged) }
+        value = HsvColor.from(color),
+        onValueChanged = onColorChanged
     )
 }
 
@@ -68,9 +67,9 @@ fun HarmonyColorPicker(
 fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
-    color: Color = Color.Red,
+    value: HsvColor = HsvColor.from(Color.Red),
     fixedBrightness: Float? = null,
-    onValueChanged: (Color) -> Unit
+    onValueChanged: (HsvColor) -> Unit
 ) {
     BoxWithConstraints(modifier) {
         Column(
@@ -79,23 +78,23 @@ fun HarmonyColorPicker(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            val adjustedColor = HsvColor.from(color).run {
+            val adjustedColor = value.run {
                 if (fixedBrightness != null) {
                     copy(value = fixedBrightness)
                 } else {
                     this
                 }
             }
-            val hsvColor by rememberUpdatedState(adjustedColor)
+            val color by rememberUpdatedState(adjustedColor)
             val updatedOnValueChanged by rememberUpdatedState(onValueChanged)
 
             HarmonyColorPickerWithMagnifiers(
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(0.8f),
-                hsvColor = hsvColor,
+                hsvColor = color,
                 onColorChanged = {
-                    updatedOnValueChanged(it.toColor())
+                    updatedOnValueChanged(it)
                 },
                 harmonyMode = harmonyMode
             )
@@ -107,9 +106,9 @@ fun HarmonyColorPicker(
                         .fillMaxWidth()
                         .weight(0.2f),
                     onValueChange = { value ->
-                        updatedOnValueChanged(hsvColor.copy(value = value).toColor())
+                        updatedOnValueChanged(color.copy(value = value))
                     },
-                    currentColor = hsvColor
+                    currentColor = color
                 )
             }
         }

@@ -40,7 +40,7 @@ class SampleColorPickerActivity : ComponentActivity() {
             ComposeColorPickerTheme {
                 val openDialog = remember { mutableStateOf(false) }
                 val currentColor = remember {
-                    mutableStateOf(Color.Black)
+                    mutableStateOf(HsvColor.from(Color.Black))
                 }
                 Surface(color = MaterialTheme.colors.background) {
                     val scrollState = rememberScrollState()
@@ -66,13 +66,13 @@ class SampleColorPickerActivity : ComponentActivity() {
                         },
                         text = {
                             ClassicColorPicker(
-                                color = currentColor.value,
+                                hsvColor = currentColor.value,
                                 modifier = Modifier
                                     .height(300.dp)
                                     .padding(16.dp),
                                 onColorChanged = { hsvColor: HsvColor ->
                                     // Triggered when the color changes, do something with the newly picked color here!
-                                    currentColor.value = hsvColor.toColor()
+                                    currentColor.value = hsvColor
                                 }
                             )
                         },

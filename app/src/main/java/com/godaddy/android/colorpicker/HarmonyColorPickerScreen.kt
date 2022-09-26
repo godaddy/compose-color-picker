@@ -37,12 +37,12 @@ fun HarmonyColorPickerScreen(navController: NavController) {
             }
         )
         var currentColor by remember {
-            mutableStateOf(Color.Black)
+            mutableStateOf(HsvColor.from(Color.Black))
         }
         var extraColors by remember {
             mutableStateOf(emptyList<HsvColor>())
         }
-        ColorPreviewInfo(currentColor = currentColor)
+        ColorPreviewInfo(currentColor = currentColor.toColor())
         var expanded by remember {
             mutableStateOf(false)
         }
@@ -72,11 +72,11 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         HarmonyColorPicker(
             modifier = Modifier.size(400.dp),
             harmonyMode = harmonyMode,
-            color = currentColor,
+            value = currentColor,
             fixedBrightness = 1f.takeIf { !showBrightnessBar }
         ) { color ->
             currentColor = color
-            extraColors = HsvColor.from(color).getColors(colorHarmonyMode = harmonyMode)
+            extraColors = color.getColors(colorHarmonyMode = harmonyMode)
         }
         ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors)
         Row {
@@ -88,7 +88,7 @@ fun HarmonyColorPickerScreen(navController: NavController) {
                 }
             )
         }
-        TextButton(onClick = { currentColor = Color.Green }) {
+        TextButton(onClick = { currentColor = HsvColor.from(Color.Green) }) {
             Text("Reset To Green")
         }
     }

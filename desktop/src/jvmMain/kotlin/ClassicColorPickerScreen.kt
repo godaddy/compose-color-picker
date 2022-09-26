@@ -18,7 +18,7 @@ fun ClassicColorPickerScreen() {
         }
         ColorPreviewInfo(currentColor = currentColor.value)
         ClassicColorPicker(
-            color = currentColor.value,
+            hsvColor = currentColor.value,
             modifier = Modifier
                 .height(300.dp)
                 .padding(16.dp),

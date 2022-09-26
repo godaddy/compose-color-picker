@@ -60,15 +60,12 @@ fun HarmonyColorPicker(
 
 /**
  * Color Picker that programmatically updates.
- * Shows a brightness bar if [fixedBrightness] is null
- * otherwise all colors are given the provided brightness value
  */
 @Composable
 fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
     value: HsvColor = HsvColor.from(Color.Red),
-    fixedBrightness: Float? = null,
     onValueChanged: (HsvColor) -> Unit
 ) {
     BoxWithConstraints(modifier) {
@@ -78,14 +75,7 @@ fun HarmonyColorPicker(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            val adjustedColor = value.run {
-                if (fixedBrightness != null) {
-                    copy(value = fixedBrightness)
-                } else {
-                    this
-                }
-            }
-            val color by rememberUpdatedState(adjustedColor)
+            val color by rememberUpdatedState(value)
             val updatedOnValueChanged by rememberUpdatedState(onValueChanged)
 
             HarmonyColorPickerWithMagnifiers(
@@ -99,18 +89,16 @@ fun HarmonyColorPicker(
                 harmonyMode = harmonyMode
             )
 
-            if (fixedBrightness == null) {
-                BrightnessBar(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth()
-                        .weight(0.2f),
-                    onValueChange = { value ->
-                        updatedOnValueChanged(color.copy(value = value))
-                    },
-                    currentColor = color
-                )
-            }
+            BrightnessBar(
+                modifier = Modifier
+                    .padding(top = 16.dp)
+                    .fillMaxWidth()
+                    .weight(0.2f),
+                onValueChange = { value ->
+                    updatedOnValueChanged(color.copy(value = value))
+                },
+                currentColor = color
+            )
         }
     }
 }

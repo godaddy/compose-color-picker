@@ -45,9 +45,9 @@ Or add the `HarmonyColorPicker` to your Compose hierarchy for an HSV color wheel
  HarmonyColorPicker(
     harmonyMode = harmonyMode.value,
     modifier = Modifier.size(400.dp),
-    onValueChanged = { color ->
+    onColorChanged = { color ->
         currentColor.value = color
-        extraColors.value = HsvColor.from(hsvColor).getColors(colorHarmonyMode = harmonyMode.value)
+        extraColors.value = color.getColors(colorHarmonyMode = harmonyMode.value)
 })
 ```
 
@@ -100,7 +100,7 @@ To change the harmony mode of the picker, pass in a different mode into the func
 HarmonyColorPicker(
     harmonyMode = ColorHarmonyMode.SHADES,
     modifier = Modifier.size(400.dp),
-    onValueChanged = { color ->
+    onColorChanged = { color ->
                // do stuff with new color
 })
 ```
@@ -114,7 +114,7 @@ import com.godaddy.android.colorpicker.HsvColor
 
 HarmonyColorPicker(
     modifier = Modifier.height(200.dp),
-    onValueChanged = { color: Color ->
+    onColorChanged = { color: HsvColor ->
         // Do something with the color
     }
 )

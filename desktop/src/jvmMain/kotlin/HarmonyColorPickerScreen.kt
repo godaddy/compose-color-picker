@@ -66,7 +66,7 @@ fun HarmonyColorPickerScreen() {
         HarmonyColorPicker(
             harmonyMode = harmonyMode.value,
             modifier = Modifier.defaultMinSize(minHeight = 300.dp, minWidth = 300.dp),
-            onValueChanged = { hsvColor ->
+            onColorChanged = { hsvColor ->
                 currentColor = hsvColor
                 extraColors.value = hsvColor.getColors(harmonyMode.value)
             }

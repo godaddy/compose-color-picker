@@ -67,7 +67,7 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         HarmonyColorPicker(
             modifier = Modifier.size(400.dp),
             harmonyMode = harmonyMode,
-            value = currentColor
+            color = currentColor
         ) { color ->
             currentColor = color
             extraColors = color.getColors(colorHarmonyMode = harmonyMode)

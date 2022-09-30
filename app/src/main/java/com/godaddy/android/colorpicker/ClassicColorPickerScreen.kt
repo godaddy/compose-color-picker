@@ -34,7 +34,7 @@ fun ClassicColorPickerScreen(navController: NavController) {
         }
         ColorPreviewInfo(currentColor = currentColor.toColor())
         ClassicColorPicker(
-            hsvColor = currentColor,
+            color = currentColor,
             modifier = Modifier
                 .height(300.dp)
                 .padding(16.dp),
@@ -51,7 +51,7 @@ fun ClassicColorPickerPreview() {
     ComposeColorPickerTheme {
         ClassicColorPicker(
             modifier = Modifier.height(300.dp),
-            hsvColor = HsvColor.from(Color.Green),
+            color = HsvColor.from(Color.Green),
             onColorChanged = {
             }
         )
@@ -63,7 +63,7 @@ fun ClassicColorPickerNoAlphaPreview() {
     ComposeColorPickerTheme {
         ClassicColorPicker(
             modifier = Modifier.height(300.dp),
-            hsvColor = HsvColor.from(color = Color.Magenta),
+            color = HsvColor.from(color = Color.Magenta),
             showAlphaBar = false,
             onColorChanged = {
             }

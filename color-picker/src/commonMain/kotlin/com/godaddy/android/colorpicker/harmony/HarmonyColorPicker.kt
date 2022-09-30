@@ -53,20 +53,17 @@ fun HarmonyColorPicker(
     HarmonyColorPicker(
         modifier = modifier,
         harmonyMode = harmonyMode,
-        value = HsvColor.from(color),
-        onValueChanged = onColorChanged
+        color = HsvColor.from(color),
+        onColorChanged = onColorChanged
     )
 }
 
-/**
- * Color Picker that programmatically updates.
- */
 @Composable
 fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
-    value: HsvColor = HsvColor.from(Color.Red),
-    onValueChanged: (HsvColor) -> Unit
+    color: HsvColor = HsvColor.from(Color.Red),
+    onColorChanged: (HsvColor) -> Unit
 ) {
     BoxWithConstraints(modifier) {
         Column(
@@ -75,8 +72,8 @@ fun HarmonyColorPicker(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            val color by rememberUpdatedState(value)
-            val updatedOnValueChanged by rememberUpdatedState(onValueChanged)
+            val color by rememberUpdatedState(color)
+            val updatedOnValueChanged by rememberUpdatedState(onColorChanged)
 
             HarmonyColorPickerWithMagnifiers(
                 modifier = Modifier

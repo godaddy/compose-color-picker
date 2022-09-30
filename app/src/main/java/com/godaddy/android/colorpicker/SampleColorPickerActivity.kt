@@ -66,7 +66,7 @@ class SampleColorPickerActivity : ComponentActivity() {
                         },
                         text = {
                             ClassicColorPicker(
-                                hsvColor = currentColor.value,
+                                color = currentColor.value,
                                 modifier = Modifier
                                     .height(300.dp)
                                     .padding(16.dp),

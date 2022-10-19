@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 @Deprecated(
     message = "This version doesn't have matching emit and intake values, move to using the version that takes hsvColor",
     replaceWith =
-    ReplaceWith("ClassicColorPicker(modifier = modifier, hsvColor = HsvColor.from(color), showAlphaBar = showAlphaBar, onColorChanged = onColorChanged)")
+    ReplaceWith("ClassicColorPicker(modifier = modifier, color = HsvColor.from(color), showAlphaBar = showAlphaBar, onColorChanged = onColorChanged)")
 )
 @Composable
 fun ClassicColorPicker(

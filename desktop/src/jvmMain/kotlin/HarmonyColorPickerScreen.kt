@@ -31,7 +31,7 @@ import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
 fun HarmonyColorPickerScreen() {
     Column(modifier = Modifier.padding(8.dp)) {
         var currentColor by remember {
-            mutableStateOf(HsvColor.from(Color.Black))
+            mutableStateOf(HsvColor.from(Color.Red))
         }
         val extraColors = remember {
             mutableStateOf(emptyList<HsvColor>())

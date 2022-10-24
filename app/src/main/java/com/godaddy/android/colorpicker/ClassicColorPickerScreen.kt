@@ -30,7 +30,7 @@ fun ClassicColorPickerScreen(navController: NavController) {
             }
         )
         var currentColor by remember {
-            mutableStateOf(HsvColor.from(Color.Black))
+            mutableStateOf(HsvColor.from(Color.Red))
         }
         ColorPreviewInfo(currentColor = currentColor.toColor())
         ClassicColorPicker(

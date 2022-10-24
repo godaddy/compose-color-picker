@@ -10,8 +10,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -32,44 +34,47 @@ fun HarmonyColorPickerScreen(navController: NavController) {
                 BackButton { navController.navigateUp() }
             }
         )
-        val currentColor = remember {
-            mutableStateOf(Color.Black)
+        var currentColor by remember {
+            mutableStateOf(HsvColor.from(Color.Black))
         }
-        val extraColors = remember {
+        var extraColors by remember {
             mutableStateOf(emptyList<HsvColor>())
         }
-        ColorPreviewInfo(currentColor = currentColor.value)
-        val expanded = remember {
+        ColorPreviewInfo(currentColor = currentColor.toColor())
+        var expanded by remember {
             mutableStateOf(false)
         }
-        val harmonyMode = remember {
+        var harmonyMode by remember {
             mutableStateOf(ColorHarmonyMode.ANALOGOUS)
         }
         TextButton(onClick = {
-            expanded.value = true
+            expanded = true
         }) {
-            Text(harmonyMode.value.name)
+            Text(harmonyMode.name)
         }
-        DropdownMenu(expanded.value, onDismissRequest = {
-            expanded.value = false
+        DropdownMenu(expanded, onDismissRequest = {
+            expanded = false
         }) {
             ColorHarmonyMode.values().forEach {
                 DropdownMenuItem(onClick = {
-                    harmonyMode.value = it
-                    expanded.value = false
+                    harmonyMode = it
+                    expanded = false
                 }) {
                     Text(it.name)
                 }
             }
         }
         HarmonyColorPicker(
-            harmonyMode = harmonyMode.value,
             modifier = Modifier.size(400.dp),
-            onColorChanged = { hsvColor ->
-                currentColor.value = hsvColor.toColor()
-                extraColors.value = hsvColor.getColors(colorHarmonyMode = harmonyMode.value)
-            }
-        )
-        ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors.value)
+            harmonyMode = harmonyMode,
+            color = currentColor
+        ) { color ->
+            currentColor = color
+            extraColors = color.getColors(colorHarmonyMode = harmonyMode)
+        }
+        ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors)
+        TextButton(onClick = { currentColor = HsvColor.from(Color.Green) }) {
+            Text("Reset To Green")
+        }
     }
 }

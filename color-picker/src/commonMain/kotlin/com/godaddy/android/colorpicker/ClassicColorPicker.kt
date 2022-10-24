@@ -24,6 +24,11 @@ import androidx.compose.ui.unit.dp
  * @param onColorChanged callback that is triggered when the color changes
  *
  */
+@Deprecated(
+    message = "This version doesn't have matching emit and intake values, move to using the version that takes hsvColor",
+    replaceWith =
+    ReplaceWith("ClassicColorPicker(modifier = modifier, color = HsvColor.from(color), showAlphaBar = showAlphaBar, onColorChanged = onColorChanged)")
+)
 @Composable
 fun ClassicColorPicker(
     modifier: Modifier = Modifier,
@@ -31,8 +36,33 @@ fun ClassicColorPicker(
     showAlphaBar: Boolean = true,
     onColorChanged: (HsvColor) -> Unit
 ) {
+    ClassicColorPicker(
+        modifier = modifier,
+        color = HsvColor.from(color),
+        showAlphaBar = showAlphaBar,
+        onColorChanged = onColorChanged
+    )
+}
+
+/**
+ * Classic Color Picker Component that shows a HSV representation of a color, with a Hue Bar on the right,
+ * Alpha Bar on the bottom and the rest of the area covered with an area with saturation value touch area.
+ *
+ * @param modifier modifiers to set to this color picker.
+ * @param color the initial color to set on the picker.
+ * @param showAlphaBar whether or not to show the bottom alpha bar on the color picker.
+ * @param onColorChanged callback that is triggered when the color changes
+ *
+ */
+@Composable
+fun ClassicColorPicker(
+    modifier: Modifier = Modifier,
+    color: HsvColor = HsvColor.from(Color.Red),
+    showAlphaBar: Boolean = true,
+    onColorChanged: (HsvColor) -> Unit
+) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
-        mutableStateOf(HsvColor.from(color))
+        mutableStateOf(color)
     }
     Row(modifier = modifier) {
         val barThickness = 32.dp

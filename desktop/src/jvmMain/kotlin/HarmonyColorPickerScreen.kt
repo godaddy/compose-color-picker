@@ -16,8 +16,10 @@ import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -28,15 +30,15 @@ import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
 @Composable
 fun HarmonyColorPickerScreen() {
     Column(modifier = Modifier.padding(8.dp)) {
-        val currentColor = remember {
-            mutableStateOf(Color.Black)
+        var currentColor by remember {
+            mutableStateOf(HsvColor.from(Color.Red))
         }
         val extraColors = remember {
             mutableStateOf(emptyList<HsvColor>())
         }
         ColorPaletteBar(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-            colors = listOf(HsvColor.from(currentColor.value)).plus(extraColors.value)
+            colors = listOf(currentColor).plus(extraColors.value)
         )
         val expanded = remember {
             mutableStateOf(false)
@@ -64,8 +66,9 @@ fun HarmonyColorPickerScreen() {
         HarmonyColorPicker(
             harmonyMode = harmonyMode.value,
             modifier = Modifier.defaultMinSize(minHeight = 300.dp, minWidth = 300.dp),
+            color = currentColor,
             onColorChanged = { hsvColor ->
-                currentColor.value = hsvColor.toColor()
+                currentColor = hsvColor
                 extraColors.value = hsvColor.getColors(harmonyMode.value)
             }
         )

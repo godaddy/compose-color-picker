@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -27,18 +29,18 @@ fun ClassicColorPickerScreen(navController: NavController) {
                 BackButton { navController.navigateUp() }
             }
         )
-        val currentColor = remember {
-            mutableStateOf(Color.Black)
+        var currentColor by remember {
+            mutableStateOf(HsvColor.from(Color.Red))
         }
-        ColorPreviewInfo(currentColor = currentColor.value)
+        ColorPreviewInfo(currentColor = currentColor.toColor())
         ClassicColorPicker(
-            color = currentColor.value,
+            color = currentColor,
             modifier = Modifier
                 .height(300.dp)
                 .padding(16.dp),
             onColorChanged = { hsvColor: HsvColor ->
                 // Triggered when the color changes, do something with the newly picked color here!
-                currentColor.value = hsvColor.toColor()
+                currentColor = hsvColor
             }
         )
     }
@@ -49,7 +51,7 @@ fun ClassicColorPickerPreview() {
     ComposeColorPickerTheme {
         ClassicColorPicker(
             modifier = Modifier.height(300.dp),
-            color = Color.Green,
+            color = HsvColor.from(Color.Green),
             onColorChanged = {
             }
         )
@@ -61,7 +63,7 @@ fun ClassicColorPickerNoAlphaPreview() {
     ComposeColorPickerTheme {
         ClassicColorPicker(
             modifier = Modifier.height(300.dp),
-            color = Color.Magenta,
+            color = HsvColor.from(color = Color.Magenta),
             showAlphaBar = false,
             onColorChanged = {
             }

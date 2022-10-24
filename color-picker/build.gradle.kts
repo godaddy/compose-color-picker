@@ -35,7 +35,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                api("androidx.appcompat:appcompat:1.5.0")
+                api("androidx.appcompat:appcompat:1.5.1")
                 api("androidx.core:core-ktx:1.8.0")
             }
         }
@@ -83,13 +83,18 @@ afterEvaluate {
             val mavenPublication = this as? MavenPublication
 
             mavenPublication?.artifactId =
-                "compose-color-picker${"-$name".takeUnless { "kotlinMultiplatform" in name }.orEmpty()}".removeSuffix("Release")
+                "compose-color-picker${
+                    "-$name".takeUnless { "kotlinMultiplatform" in name }.orEmpty()
+                }".removeSuffix("Release")
         }
     }
 }
 
 signing {
-
+    setRequired {
+        // signing is only required if the artifacts are to be published
+        gradle.taskGraph.allTasks.any { PublishToMavenRepository::class == it.javaClass }
+    }
     sign(configurations.archives.get())
     sign(publishing.publications)
 }

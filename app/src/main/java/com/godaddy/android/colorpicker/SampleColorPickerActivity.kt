@@ -18,8 +18,10 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ExperimentalGraphicsApi
@@ -38,8 +40,8 @@ class SampleColorPickerActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeColorPickerTheme {
-                val openDialog = remember { mutableStateOf(false) }
-                val currentColor = remember {
+                var openDialog by remember { mutableStateOf(false) }
+                var currentColor by remember {
                     mutableStateOf(HsvColor.from(Color.Black))
                 }
                 Surface(color = MaterialTheme.colors.background) {
@@ -54,32 +56,32 @@ class SampleColorPickerActivity : ComponentActivity() {
                         Text(
                             text = "Dialog",
                             modifier = Modifier.clickable {
-                                openDialog.value = true
+                                openDialog = true
                             }.padding(8.dp).fillMaxWidth()
                         )
                     }
                 }
-                if (openDialog.value) {
+                if (openDialog) {
                     AlertDialog(
                         onDismissRequest = {
-                            openDialog.value = false
+                            openDialog = false
                         },
                         text = {
                             ClassicColorPicker(
-                                color = currentColor.value,
+                                color = currentColor,
                                 modifier = Modifier
                                     .height(300.dp)
                                     .padding(16.dp),
                                 onColorChanged = { hsvColor: HsvColor ->
                                     // Triggered when the color changes, do something with the newly picked color here!
-                                    currentColor.value = hsvColor
+                                    currentColor = hsvColor
                                 }
                             )
                         },
                         confirmButton = {
                             TextButton(
                                 onClick = {
-                                    openDialog.value = false
+                                    openDialog = false
                                 }
                             ) {
                                 Text("Confirm")
@@ -88,7 +90,7 @@ class SampleColorPickerActivity : ComponentActivity() {
                         dismissButton = {
                             TextButton(
                                 onClick = {
-                                    openDialog.value = false
+                                    openDialog = false
                                 }
                             ) {
                                 Text("Dismiss")

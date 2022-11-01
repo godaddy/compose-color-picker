@@ -8,6 +8,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".SampleApplication"
         android:theme="@style/Theme.ComposeColorPicker">
         <activity
             android:name=".SampleColorPickerActivity"

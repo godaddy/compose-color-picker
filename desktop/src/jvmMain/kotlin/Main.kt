@@ -1,4 +1,3 @@
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,8 +13,10 @@ import androidx.compose.material.TabRow
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,29 +35,29 @@ fun main() = application {
                     })
                     // Here is how to add a Color Picker to your compose tree:
 
-                    val currentColorPicker = remember { mutableStateOf(ColorPicker.CLASSIC) }
+                    var currentColorPicker by remember { mutableStateOf(ColorPicker.CLASSIC) }
                     TabRow(
-                        currentColorPicker.value.ordinal,
+                        currentColorPicker.ordinal,
                         tabs = {
                             Text(
                                 "Classic Picker",
                                 modifier =
                                 Modifier.clickable {
-                                    currentColorPicker.value = ColorPicker.CLASSIC
+                                    currentColorPicker = ColorPicker.CLASSIC
                                 }.padding(16.dp),
                                 textAlign = TextAlign.Center
                             )
                             Text(
                                 "Harmony Picker",
                                 modifier = Modifier.clickable {
-                                    currentColorPicker.value = ColorPicker.HARMONY
+                                    currentColorPicker = ColorPicker.HARMONY
                                 }.padding(16.dp),
                                 textAlign = TextAlign.Center
                             )
                         },
                         contentColor = Color.White
                     )
-                    when (currentColorPicker.value) {
+                    when (currentColorPicker) {
                         ColorPicker.CLASSIC -> {
                             ClassicColorPickerScreen()
                         }

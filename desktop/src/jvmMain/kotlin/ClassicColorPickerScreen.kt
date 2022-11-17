@@ -16,7 +16,7 @@ import com.godaddy.android.colorpicker.HsvColor
 fun ClassicColorPickerScreen() {
     Column {
         var currentColor by remember {
-            mutableStateOf(HsvColor.from(Color.Black))
+            mutableStateOf(HsvColor.from(Color.Red))
         }
         ColorPreviewInfo(currentColor = currentColor.toColor())
         ClassicColorPicker(

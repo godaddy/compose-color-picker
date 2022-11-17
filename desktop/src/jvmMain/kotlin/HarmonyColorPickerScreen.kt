@@ -33,43 +33,43 @@ fun HarmonyColorPickerScreen() {
         var currentColor by remember {
             mutableStateOf(HsvColor.from(Color.Red))
         }
-        val extraColors = remember {
+        var extraColors by remember {
             mutableStateOf(emptyList<HsvColor>())
         }
         ColorPaletteBar(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-            colors = listOf(currentColor).plus(extraColors.value)
+            colors = listOf(currentColor).plus(extraColors)
         )
-        val expanded = remember {
+        var expanded by remember {
             mutableStateOf(false)
         }
-        val harmonyMode = remember {
+        var harmonyMode by remember {
             mutableStateOf(ColorHarmonyMode.ANALOGOUS)
         }
         TextButton(onClick = {
-            expanded.value = true
+            expanded = true
         }) {
-            Text(harmonyMode.value.name)
+            Text(harmonyMode.name)
         }
-        DropdownMenu(expanded.value, onDismissRequest = {
-            expanded.value = false
+        DropdownMenu(expanded, onDismissRequest = {
+            expanded = false
         }) {
             ColorHarmonyMode.values().forEach {
                 DropdownMenuItem(onClick = {
-                    harmonyMode.value = it
-                    expanded.value = false
+                    harmonyMode = it
+                    expanded = false
                 }) {
                     Text(it.name)
                 }
             }
         }
         HarmonyColorPicker(
-            harmonyMode = harmonyMode.value,
+            harmonyMode = harmonyMode,
             modifier = Modifier.defaultMinSize(minHeight = 300.dp, minWidth = 300.dp),
             color = currentColor,
             onColorChanged = { hsvColor ->
                 currentColor = hsvColor
-                extraColors.value = hsvColor.getColors(harmonyMode.value)
+                extraColors = hsvColor.getColors(harmonyMode)
             }
         )
     }

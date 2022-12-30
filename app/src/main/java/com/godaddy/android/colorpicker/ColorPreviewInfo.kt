@@ -1,19 +1,11 @@
 package com.godaddy.android.colorpicker
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -45,7 +37,6 @@ fun ColorPreviewInfo(currentColor: Color) {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ColorPaletteBar(
     modifier: Modifier = Modifier,
@@ -54,7 +45,7 @@ fun ColorPaletteBar(
     LazyVerticalGrid(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        cells = GridCells.Adaptive(48.dp),
+        columns = GridCells.Adaptive(48.dp),
         modifier = modifier
             .fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),

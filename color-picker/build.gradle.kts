@@ -24,19 +24,13 @@ kotlin {
             dependencies {
                 api(compose.runtime)
                 api(compose.foundation)
-                api(compose.material)
+                implementation(compose.material)
                 implementation("com.github.ajalt.colormath:colormath:3.2.0")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                api("androidx.appcompat:appcompat:1.5.1")
-                api("androidx.core:core-ktx:1.8.0")
             }
         }
         val androidTest by getting {
@@ -46,7 +40,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                api(compose.preview)
+                implementation(compose.preview)
             }
         }
         val jvmTest by getting

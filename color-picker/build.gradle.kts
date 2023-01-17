@@ -2,8 +2,8 @@ import org.jetbrains.compose.compose
 
 plugins {
     kotlin("multiplatform")
-    id("org.jetbrains.dokka") version "1.6.10"
-    id("org.jetbrains.compose") version "1.1.0"
+    id("org.jetbrains.dokka") version "1.7.20"
+    id("org.jetbrains.compose") version "1.2.2"
     id("com.android.library")
     id("maven-publish")
     id("signing")
@@ -24,19 +24,13 @@ kotlin {
             dependencies {
                 api(compose.runtime)
                 api(compose.foundation)
-                api(compose.material)
+                implementation(compose.material)
                 implementation("com.github.ajalt.colormath:colormath:3.2.0")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                api("androidx.appcompat:appcompat:1.5.1")
-                api("androidx.core:core-ktx:1.8.0")
             }
         }
         val androidTest by getting {
@@ -46,7 +40,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                api(compose.preview)
+                implementation(compose.preview)
             }
         }
         val jvmTest by getting
@@ -54,11 +48,12 @@ kotlin {
 }
 
 android {
-    compileSdk = 31
+    namespace = "com.godaddy.common.colorpicker"
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 31
+        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

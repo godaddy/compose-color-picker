@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.dokka") version "1.7.20"
@@ -17,6 +15,9 @@ kotlin {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
+    }
+    js(IR) {
+        browser()
     }
 
     sourceSets {
@@ -50,10 +51,8 @@ kotlin {
 android {
     namespace = "com.godaddy.common.colorpicker"
     compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

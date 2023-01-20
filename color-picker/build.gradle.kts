@@ -11,11 +11,7 @@ kotlin {
     android("android") {
         publishLibraryVariants("release")
     }
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
+    jvm()
     js(IR) {
         browser()
     }
@@ -45,6 +41,10 @@ kotlin {
             }
         }
         val jvmTest by getting
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "11"
     }
 }
 

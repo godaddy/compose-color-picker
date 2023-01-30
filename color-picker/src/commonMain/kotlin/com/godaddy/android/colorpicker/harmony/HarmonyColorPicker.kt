@@ -75,7 +75,7 @@ fun HarmonyColorPicker(
 
 /**
  *
- * Will show a brightness bar if [fixedBrightness] is null
+ * Will show a brightness bar if [showBrightnessBar] is true
  * otherwise all colors are given the provided brightness value
  */
 @Composable
@@ -83,7 +83,7 @@ fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
     color: HsvColor,
-    fixedBrightness: Float? = null,
+    showBrightnessBar: Boolean = true,
     onColorChanged: (HsvColor) -> Unit
 ) {
     BoxWithConstraints(modifier) {
@@ -93,14 +93,7 @@ fun HarmonyColorPicker(
                 .fillMaxHeight()
                 .fillMaxWidth()
         ) {
-            val adjustedColor = color.run {
-                if (fixedBrightness != null) {
-                    copy(value = fixedBrightness)
-                } else {
-                    this
-                }
-            }
-            val updatedColor by rememberUpdatedState(adjustedColor)
+            val updatedColor by rememberUpdatedState(color)
             val updatedOnValueChanged by rememberUpdatedState(onColorChanged)
 
             HarmonyColorPickerWithMagnifiers(
@@ -114,7 +107,7 @@ fun HarmonyColorPicker(
                 harmonyMode = harmonyMode
             )
 
-            if (fixedBrightness == null) {
+            if (showBrightnessBar) {
                 BrightnessBar(
                     modifier = Modifier
                         .padding(top = 16.dp)

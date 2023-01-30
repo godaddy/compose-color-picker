@@ -73,7 +73,7 @@ fun HarmonyColorPickerScreen(navController: NavController) {
             modifier = Modifier.size(400.dp),
             harmonyMode = harmonyMode,
             color = currentColor,
-            fixedBrightness = 1f.takeIf { !showBrightnessBar }
+            showBrightnessBar = showBrightnessBar
         ) { color ->
             currentColor = color
             extraColors = color.getColors(colorHarmonyMode = harmonyMode)

@@ -146,7 +146,7 @@ private fun HarmonyColorPickerWithMagnifiers(
 
     ) {
         val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
-        val diameterPx = remember(constraints.maxWidth) {
+        val diameterPx by remember(constraints.maxWidth) {
             mutableStateOf(constraints.maxWidth)
         }
 
@@ -160,7 +160,7 @@ private fun HarmonyColorPickerWithMagnifiers(
         fun updateColorWheel(newPosition: Offset, animate: Boolean) {
             // Work out if the new position is inside the circle we are drawing, and has a
             // valid color associated to it. If not, keep the current position
-            val newColor = colorForPosition(newPosition, IntSize(diameterPx.value, diameterPx.value), hsvColorUpdated.value)
+            val newColor = colorForPosition(newPosition, IntSize(diameterPx, diameterPx), hsvColorUpdated.value)
             if (newColor != null) {
                 animateChanges = animate
                 updatedOnColorChanged(newColor)
@@ -183,9 +183,9 @@ private fun HarmonyColorPickerWithMagnifiers(
         }
 
         Box(inputModifier.fillMaxSize()) {
-            ColorWheel(hsvColor = hsvColor, diameter = diameterPx.value)
+            ColorWheel(hsvColor = hsvColor, diameter = diameterPx)
             HarmonyColorMagnifiers(
-                diameterPx.value,
+                diameterPx,
                 hsvColor,
                 animateChanges,
                 currentlyChangingInput,

@@ -1,5 +1,4 @@
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.GridCells
-import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
@@ -33,49 +32,48 @@ fun HarmonyColorPickerScreen() {
         var currentColor by remember {
             mutableStateOf(HsvColor.from(Color.Red))
         }
-        val extraColors = remember {
+        var extraColors by remember {
             mutableStateOf(emptyList<HsvColor>())
         }
         ColorPaletteBar(
             modifier = Modifier.fillMaxWidth().wrapContentHeight(),
-            colors = listOf(currentColor).plus(extraColors.value)
+            colors = listOf(currentColor).plus(extraColors)
         )
-        val expanded = remember {
+        var expanded by remember {
             mutableStateOf(false)
         }
-        val harmonyMode = remember {
+        var harmonyMode by remember {
             mutableStateOf(ColorHarmonyMode.ANALOGOUS)
         }
         TextButton(onClick = {
-            expanded.value = true
+            expanded = true
         }) {
-            Text(harmonyMode.value.name)
+            Text(harmonyMode.name)
         }
-        DropdownMenu(expanded.value, onDismissRequest = {
-            expanded.value = false
+        DropdownMenu(expanded, onDismissRequest = {
+            expanded = false
         }) {
             ColorHarmonyMode.values().forEach {
                 DropdownMenuItem(onClick = {
-                    harmonyMode.value = it
-                    expanded.value = false
+                    harmonyMode = it
+                    expanded = false
                 }) {
                     Text(it.name)
                 }
             }
         }
         HarmonyColorPicker(
-            harmonyMode = harmonyMode.value,
+            harmonyMode = harmonyMode,
             modifier = Modifier.defaultMinSize(minHeight = 300.dp, minWidth = 300.dp),
             color = currentColor,
             onColorChanged = { hsvColor ->
                 currentColor = hsvColor
-                extraColors.value = hsvColor.getColors(harmonyMode.value)
+                extraColors = hsvColor.getColors(harmonyMode)
             }
         )
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ColorPaletteBar(
     modifier: Modifier = Modifier,
@@ -84,7 +82,7 @@ fun ColorPaletteBar(
     LazyVerticalGrid(
         horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
-        cells = GridCells.Adaptive(48.dp),
+        columns = GridCells.Adaptive(48.dp),
         modifier = modifier
             .fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),

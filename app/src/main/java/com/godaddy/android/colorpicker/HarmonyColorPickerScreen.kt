@@ -37,7 +37,7 @@ fun HarmonyColorPickerScreen(navController: NavController) {
             }
         )
         var currentColor by remember {
-            mutableStateOf(HsvColor.from(Color.Black))
+            mutableStateOf(HsvColor.from(Color.Red))
         }
         var extraColors by remember {
             mutableStateOf(emptyList<HsvColor>())

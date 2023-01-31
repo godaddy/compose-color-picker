@@ -1,5 +1,3 @@
-import org.jetbrains.compose.compose
-
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.dokka") version "1.7.20"
@@ -13,17 +11,15 @@ kotlin {
     android("android") {
         publishLibraryVariants("release")
     }
-    jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
+    jvm()
+    js(IR) {
+        browser()
     }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(compose.runtime)
-                api(compose.foundation)
                 implementation(compose.material)
                 implementation("com.github.ajalt.colormath:colormath:3.2.0")
             }
@@ -45,15 +41,17 @@ kotlin {
         }
         val jvmTest by getting
     }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+        kotlinOptions.jvmTarget = "11"
+    }
 }
 
 android {
     namespace = "com.godaddy.common.colorpicker"
     compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -61,13 +59,22 @@ android {
     }
 }
 
-tasks {
-    create<Jar>("javadocJar") {
-        dependsOn(dokkaJavadoc)
-        archiveClassifier.set("javadoc")
-        from(dokkaJavadoc.get().outputDirectory)
-    }
+val dokkaOutputDir = buildDir.resolve("dokka")
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(dokkaOutputDir)
 }
+
+val deleteDokkaOutputDir by tasks.register<Delete>("deleteDokkaOutputDirectory") {
+    delete(dokkaOutputDir)
+}
+
+val javadocJar = tasks.register<Jar>("javadocJar") {
+    dependsOn(deleteDokkaOutputDir, tasks.dokkaHtml)
+    archiveClassifier.set("javadoc")
+    from(dokkaOutputDir)
+}
+
 val sonatypeUsername: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralUsername")
 val sonatypePassword: String? = System.getenv("ORG_GRADLE_PROJECT_mavenCentralPassword")
 

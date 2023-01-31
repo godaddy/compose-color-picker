@@ -73,11 +73,17 @@ fun HarmonyColorPicker(
     )
 }
 
+/**
+ *
+ * Will show a brightness bar if [showBrightnessBar] is true
+ * otherwise all colors are given the provided brightness value
+ */
 @Composable
 fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
     color: HsvColor,
+    showBrightnessBar: Boolean = true,
     onColorChanged: (HsvColor) -> Unit
 ) {
     BoxWithConstraints(modifier) {
@@ -101,16 +107,18 @@ fun HarmonyColorPicker(
                 harmonyMode = harmonyMode
             )
 
-            BrightnessBar(
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .fillMaxWidth()
-                    .weight(0.2f),
-                onValueChange = { value ->
-                    updatedOnValueChanged(updatedColor.copy(value = value))
-                },
-                currentColor = updatedColor
-            )
+            if (showBrightnessBar) {
+                BrightnessBar(
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .fillMaxWidth()
+                        .weight(0.2f),
+                    onValueChange = { value ->
+                        updatedOnValueChanged(updatedColor.copy(value = value))
+                    },
+                    currentColor = updatedColor
+                )
+            }
         }
     }
 }

@@ -1,11 +1,13 @@
 package com.godaddy.android.colorpicker
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
@@ -47,6 +49,9 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         var harmonyMode by remember {
             mutableStateOf(ColorHarmonyMode.ANALOGOUS)
         }
+        var showBrightnessBar by remember {
+            mutableStateOf(true)
+        }
         TextButton(onClick = {
             expanded = true
         }) {
@@ -67,12 +72,22 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         HarmonyColorPicker(
             modifier = Modifier.size(400.dp),
             harmonyMode = harmonyMode,
-            color = currentColor
+            color = currentColor,
+            showBrightnessBar = showBrightnessBar
         ) { color ->
             currentColor = color
             extraColors = color.getColors(colorHarmonyMode = harmonyMode)
         }
         ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors)
+        Row {
+            Text("Show Brightness Bar")
+            Switch(
+                checked = showBrightnessBar,
+                onCheckedChange = { checked ->
+                    showBrightnessBar = checked
+                }
+            )
+        }
         TextButton(onClick = { currentColor = HsvColor.from(Color.Green) }) {
             Text("Reset To Green")
         }

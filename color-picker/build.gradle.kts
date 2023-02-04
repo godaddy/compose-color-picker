@@ -21,7 +21,7 @@ kotlin {
             dependencies {
                 api(compose.runtime)
                 implementation(compose.material)
-                implementation("com.github.ajalt.colormath:colormath:3.2.0")
+                implementation("com.github.ajalt.colormath:colormath:3.2.1")
             }
         }
         val commonTest by getting {

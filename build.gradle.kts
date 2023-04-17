@@ -24,7 +24,7 @@ allprojects {
 }
 
 plugins {
-    id("com.diffplug.spotless") version "6.10.0"
+    id("com.diffplug.spotless") version "6.18.0"
 }
 
 apply("${project.rootDir}/gradle/spotless.gradle")

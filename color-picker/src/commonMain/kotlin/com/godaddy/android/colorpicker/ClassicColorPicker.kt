@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberUpdatedState
@@ -13,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Classic Color Picker Component that shows a HSV representation of a color, with a Hue Bar on the right,
@@ -58,16 +60,25 @@ fun ClassicColorPicker(
 fun ClassicColorPicker(
     modifier: Modifier = Modifier,
     color: HsvColor = HsvColor.from(Color.Red),
+    updateColorFlow: Flow<HsvColor>? = null,
     showAlphaBar: Boolean = true,
     onColorChanged: (HsvColor) -> Unit
 ) {
     val colorPickerValueState = rememberSaveable(stateSaver = HsvColor.Saver) {
         mutableStateOf(color)
     }
+    val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
+    LaunchedEffect(Unit) {
+        updateColorFlow?.let { flow ->
+            flow.collect { hsvColor ->
+                colorPickerValueState.value = hsvColor
+                updatedOnColorChanged(colorPickerValueState.value)
+            }
+        }
+    }
     Row(modifier = modifier) {
         val barThickness = 32.dp
         val paddingBetweenBars = 8.dp
-        val updatedOnColorChanged by rememberUpdatedState(onColorChanged)
         Column(modifier = Modifier.weight(0.8f)) {
             SaturationValueArea(
                 modifier = Modifier.weight(0.8f),

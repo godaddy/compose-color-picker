@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -48,18 +50,18 @@ fun HarmonyColorPickerScreen() {
         }) {
             Text(harmonyMode.name)
         }
-//        DropdownMenu(expanded, onDismissRequest = {
-//            expanded = false
-//        }) {
-//            ColorHarmonyMode.values().forEach {
-//                DropdownMenuItem(onClick = {
-//                    harmonyMode = it
-//                    expanded = false
-//                }) {
-//                    Text(it.name)
-//                }
-//            }
-//        }
+        DropdownMenu(expanded, onDismissRequest = {
+            expanded = false
+        }) {
+            ColorHarmonyMode.entries.forEach {
+                DropdownMenuItem(onClick = {
+                    harmonyMode = it
+                    expanded = false
+                }) {
+                    Text(it.name)
+                }
+            }
+        }
         HarmonyColorPicker(
             harmonyMode = harmonyMode,
             modifier = Modifier.defaultMinSize(minHeight = 300.dp, minWidth = 300.dp),

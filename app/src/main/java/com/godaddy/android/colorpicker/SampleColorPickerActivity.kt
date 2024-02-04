@@ -11,12 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +39,7 @@ class SampleColorPickerActivity : ComponentActivity() {
                 var currentColor by remember {
                     mutableStateOf(HsvColor.from(Color.Black))
                 }
-                Surface(color = MaterialTheme.colors.background) {
+                Surface {
                     val scrollState = rememberScrollState()
                     Column(modifier = Modifier.verticalScroll(scrollState)) {
                         val navController = rememberNavController()
@@ -103,6 +98,7 @@ class SampleColorPickerActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorPickerTypeScreen(navController: NavController) {
     Column(modifier = Modifier.fillMaxWidth()) {

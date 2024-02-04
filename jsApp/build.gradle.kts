@@ -12,6 +12,7 @@ kotlin {
         val jsMain by getting  {
             dependencies {
                 implementation(project(":color-picker"))
+                implementation(compose.material)
             }
         }
     }

@@ -7,8 +7,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
+        classpath("com.android.tools.build:gradle:8.2.2")
     }
 }
 
@@ -25,6 +25,7 @@ allprojects {
 
 plugins {
     id("com.diffplug.spotless") version "6.10.0"
+    id("org.jetbrains.compose") version "1.5.12" apply false
 }
 
 apply("${project.rootDir}/gradle/spotless.gradle")

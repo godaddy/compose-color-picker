@@ -83,7 +83,6 @@ fun HarmonyColorPicker(
     modifier: Modifier = Modifier,
     harmonyMode: ColorHarmonyMode,
     color: HsvColor,
-    showBrightnessBar: Boolean = true,
     onColorChanged: (HsvColor) -> Unit
 ) {
     BoxWithConstraints(modifier) {
@@ -106,19 +105,6 @@ fun HarmonyColorPicker(
                 },
                 harmonyMode = harmonyMode
             )
-
-            if (showBrightnessBar) {
-                BrightnessBar(
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth()
-                        .weight(0.2f),
-                    onValueChange = { value ->
-                        updatedOnValueChanged(updatedColor.copy(value = value))
-                    },
-                    currentColor = updatedColor
-                )
-            }
         }
     }
 }

@@ -19,8 +19,9 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(compose.runtime)
-                implementation(compose.material)
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.ui)
                 implementation("com.github.ajalt.colormath:colormath:3.4.0")
             }
         }

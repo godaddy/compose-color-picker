@@ -1,16 +1,7 @@
 package com.godaddy.android.colorpicker
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Switch
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TopAppBar
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +16,7 @@ import com.godaddy.android.colorpicker.harmony.ColorHarmonyMode
 import com.godaddy.android.colorpicker.harmony.HarmonyColorPicker
 import com.godaddy.android.colorpicker.theme.BackButton
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HarmonyColorPickerScreen(navController: NavController) {
     Column {
@@ -60,23 +52,34 @@ fun HarmonyColorPickerScreen(navController: NavController) {
         DropdownMenu(expanded, onDismissRequest = {
             expanded = false
         }) {
-            ColorHarmonyMode.values().forEach {
-                DropdownMenuItem(onClick = {
-                    harmonyMode = it
-                    expanded = false
-                }) {
-                    Text(it.name)
-                }
+            ColorHarmonyMode.entries.forEach {
+                DropdownMenuItem(
+                    onClick = {
+                        harmonyMode = it
+                        expanded = false
+                    },
+                    text = {
+                        Text(it.name)
+                    }
+                )
             }
         }
-        HarmonyColorPicker(
-            modifier = Modifier.size(400.dp),
-            harmonyMode = harmonyMode,
-            color = currentColor,
-            showBrightnessBar = showBrightnessBar
-        ) { color ->
-            currentColor = color
-            extraColors = color.getColors(colorHarmonyMode = harmonyMode)
+        Column(Modifier.width(IntrinsicSize.Min)) {
+            HarmonyColorPicker(
+                modifier = Modifier.size(400.dp),
+                harmonyMode = harmonyMode,
+                color = currentColor,
+            ) { color ->
+                currentColor = color
+                extraColors = color.getColors(colorHarmonyMode = harmonyMode)
+            }
+            if (showBrightnessBar) {
+                Slider(
+                    modifier = Modifier.padding(16.dp),
+                    value = currentColor.value,
+                    onValueChange = { currentColor = currentColor.copy(value = it) }
+                )
+            }
         }
         ColorPaletteBar(modifier = Modifier.fillMaxWidth().height(70.dp), colors = extraColors)
         Row {
